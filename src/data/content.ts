@@ -2,9 +2,9 @@ import type { Content } from "./types";
 
 export const content: Content = {
 	seo: {
-		title: "Rutas del Sol — Turismo Receptivo",
+		title: "Rutas del Sol — Turismo Receptivo Arequipa",
 		description:
-			"Descubrí la historia y paisajes de la región con Rutas del Sol. Trekking guiados, itinerarios cortos y experiencias culturales vivenciales.",
+			"Descubre la historia y paisajes de Arequipa con Rutas del Sol. Trekking guiados al Cañón del Colca, itinerarios por la Ciudad Blanca y experiencias culturales vivenciales.",
 	},
 
 	nav: {
@@ -18,13 +18,14 @@ export const content: Content = {
 	},
 
 	hero: {
-		heading: "Descubrí los caminos que cuentan historias",
+		heading: "Descubre los caminos que cuentan historias",
 		subheading:
 			"Trekking guiados · Experiencias culturales · Itinerarios cortos",
-		primaryCta: { label: "Explorá experiencias", href: "#experiencias" },
+		primaryCta: { label: "Explora experiencias", href: "#experiencias" },
 		secondaryCta: { label: "Ver itinerarios", href: "#itinerarios" },
-		bgImage: "https://picsum.photos/seed/andean-sunset/1920/1080",
-		bgImageAlt: "Paisaje andino al atardecer, montañas con luz dorada",
+		bgImage: "https://picsum.photos/seed/arequipa-campina-verde/1920/1080",
+		bgImageAlt:
+			"Campiña arequipeña con terrazas de cultivo y el Misti al fondo",
 	},
 
 	features: {
@@ -33,11 +34,11 @@ export const content: Content = {
 				id: "trekking",
 				title: "Caminos ancestrales",
 				description:
-					"Caminá por senderos que las montañas guardan hace siglos. La Quebrada de Humahuaca, el Cerro de los Siete Colores, los valles calchaquíes. Cada paso, una historia.",
+					"Camina por senderos que las montañas guardan hace siglos. El Cañón del Colca, el Valle de los Volcanes, el Camino del Inca. Cada paso, una historia.",
 				variant: "image",
 				image: {
-					src: "https://picsum.photos/seed/cerro-siete-colores/800/600",
-					alt: "Cerro de los Siete Colores, Purmamarca, Jujuy",
+					src: "https://picsum.photos/seed/colca-canyon-arequipa/800/600",
+					alt: "Cañón del Colca al amanecer con el vuelo del cóndor",
 				},
 				size: "wide",
 			},
@@ -48,20 +49,20 @@ export const content: Content = {
 					"Itinerarios de 1 a 3 días para quienes quieren lo esencial sin apurarse. Diseñados al ritmo de cada viajero.",
 				variant: "image",
 				image: {
-					src: "https://picsum.photos/seed/sendero-andino/400/400",
-					alt: "Sendero de montaña entre cardones y piedras",
+					src: "https://picsum.photos/seed/arequipa-plaza-armas/400/400",
+					alt: "Plaza de Armas de Arequipa con la Catedral al fondo",
 				},
 				size: "default",
 			},
 			{
 				id: "cultural",
-				title: "Tejé la memoria",
+				title: "Teje la memoria",
 				description:
-					"Tejé con artesanas locales, probá la cocina andina, recorré mercados tradicionales. El viaje no termina en el paisaje: entra en las manos que lo trabajan.",
+					"Visita el Monasterio de Santa Catalina, prueba la cocina arequipeña, recorre la Ruta del Sillar. El viaje no termina en el paisaje: entra en las manos que lo trabajan.",
 				variant: "image",
 				image: {
-					src: "https://picsum.photos/seed/tejedora-andina/400/600",
-					alt: "Artesana tejiendo en telar tradicional andino",
+					src: "https://picsum.photos/seed/santa-catalina-arequipa/400/600",
+					alt: "Monasterio de Santa Catalina, calles coloridas de Arequipa",
 				},
 				size: "tall",
 			},
@@ -78,7 +79,7 @@ export const content: Content = {
 				id: "conexion",
 				title: "Raíces que sostienen",
 				description:
-					"Conocé a las comunidades que hacen vivo este territorio. Turismo sustentable que respeta, celebra y devuelve.",
+					"Conoce a las comunidades que hacen vivo este territorio. Turismo sustentable que respeta, celebra y devuelve.",
 				variant: "text",
 				size: "default",
 			},
@@ -88,28 +89,28 @@ export const content: Content = {
 	gallery: {
 		images: [
 			{
-				src: "https://picsum.photos/seed/montanas-doradas/1600/900",
-				alt: "Cordillera de los Andes iluminada por el sol del atardecer",
+				src: "https://picsum.photos/seed/arequipa-campina/1600/900",
+				alt: "Campiña arequipeña con el Misti al fondo al amanecer",
 				caption:
-					"El sol nace entre los cerros, igual que ayer, igual que hace siglos.",
+					"El sol nace entre los volcanes, igual que ayer, igual que hace siglos.",
 				captionPosition: "bottom-left",
 			},
 			{
-				src: "https://picsum.photos/seed/puna-viento/1600/900",
-				alt: "Puna argentina, plano infinito de arena y cielo",
-				caption: "El viento en la puna cuenta lo que los mapas no dicen.",
+				src: "https://picsum.photos/seed/colca-condor-vuelo/1600/900",
+				alt: "Cóndor andino volando sobre el Cañón del Colca",
+				caption: "El vuelo del cóndor cuenta lo que los mapas no dicen.",
 				captionPosition: "bottom-center",
 			},
 			{
-				src: "https://picsum.photos/seed/textile-andino/1200/1200",
-				alt: "Primer plano de tejido artesanal con patrones geométricos",
+				src: "https://picsum.photos/seed/sillar-arquitectura/1200/1200",
+				alt: "Detalle de arquitectura en sillar, piedra volcánica blanca de Arequipa",
 				caption:
-					"Cada hilado tiene un nombre. Cada color, una historia que no necesita palabras.",
+					"Cada piedra tiene un nombre. Cada color, una historia que no necesita palabras.",
 				captionPosition: "center",
 			},
 			{
-				src: "https://picsum.photos/seed/sendero-atardecer/1600/900",
-				alt: "Viajero caminando por un sendero de montaña al atardecer",
+				src: "https://picsum.photos/seed/arequipa-atardecer/1600/900",
+				alt: "Atardecer en Arequipa con el Misti nevado al fondo",
 				caption: "El sendero no termina donde termina el camino.",
 				captionPosition: "bottom-left",
 			},
@@ -117,19 +118,19 @@ export const content: Content = {
 		testimonials: [
 			{
 				quote:
-					"Una experiencia que transforma la forma de ver la montaña. Cada sendero tiene una historia y acá saben contarla.",
+					"Una experiencia que transforma la forma de ver la montaña. Cada sendero tiene una historia y aquí saben contarla.",
 				author: "María Fernanda López",
-				location: "Buenos Aires, Argentina",
+				location: "Arequipa, Perú",
 			},
 			{
 				quote:
-					"Hicimos el trekking de 2 días por la Quebrada. Todo impecable: los guías, la logística, la comida. Volvemos el año que viene.",
+					"Hicimos el trekking de 2 días por el Cañón del Colca. Todo impecable: los guías, la logística, la comida. Volvemos el año que viene.",
 				author: "Carlos y Patricia Mendoza",
 				location: "Santiago, Chile",
 			},
 			{
 				quote:
-					"La experiencia cultural con las artesanas fue lo más auténtico del viaje. Aprendí más en una tarde que en años de leer.",
+					"La experiencia en el Monasterio de Santa Catalina fue lo más auténtico del viaje. Aprendí más en una tarde que en años de leer.",
 				author: "Sofía Reinhardt",
 				location: "Berlín, Alemania",
 			},
@@ -147,10 +148,10 @@ export const content: Content = {
 		subCopy:
 			"No hacen falta mapas ni planes perfectos. Solo venir con ganas de descubrir.",
 		primaryCta: {
-			label: "Reservá tu experiencia",
+			label: "Reserva tu experiencia",
 			href: "mailto:reservas@rutasdelsol.com",
 		},
-		secondaryCta: { label: "Contactanos", href: "mailto:info@rutasdelsol.com" },
+		secondaryCta: { label: "Contáctanos", href: "mailto:info@rutasdelsol.com" },
 	},
 
 	footer: {
@@ -169,13 +170,13 @@ export const content: Content = {
 			},
 			{
 				platform: "WhatsApp",
-				href: "https://wa.me/549XXXXXXXXX",
+				href: "https://wa.me/519XXXXXXXX",
 				icon: "whatsapp-logo",
 			},
 		],
 		contact: {
 			email: "info@rutasdelsol.com",
-			phone: "+54 9 XXX XXX-XXXX",
+			phone: "+51 9XX XXX XXX",
 		},
 		copyright: "2025 Rutas del Sol. Todos los derechos reservados.",
 	},

@@ -1,21 +1,23 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Nav from '../components/Nav.astro';
-import Hero from '../components/Hero.astro';
-import Features from '../components/Features.astro';
-import TrustBar from '../components/TrustBar.astro';
-import Gallery from '../components/Gallery.astro';
-import CtaSection from '../components/CtaSection.astro';
-import Footer from '../components/Footer.astro';
+import { PageEntrance } from '../components/PageEntrance';
+import { Nav } from '../components/Nav';
+import { Hero } from '../components/Hero';
+import { Features } from '../components/Features';
+import { TrustBar } from '../components/TrustBar';
+import { Gallery } from '../components/Gallery';
+import { CtaSection } from '../components/CtaSection';
+import { Footer } from '../components/Footer';
 import { content } from '../data/content';
 ---
 
 <Layout title={content.seo.title} description={content.seo.description}>
-  <Nav />
-  <Hero />
-  <Features />
-  <TrustBar />
-  <Gallery />
-  <CtaSection />
-  <Footer />
+  <PageEntrance client:load />
+  <Nav client:load content={content.nav} />
+  <Hero client:load content={content.hero} />
+  <Features client:load content={content.features} />
+  <TrustBar client:load />
+  <Gallery client:load content={content.gallery} />
+  <CtaSection client:load content={content.cta} />
+  <Footer client:load content={content.footer} />
 </Layout>

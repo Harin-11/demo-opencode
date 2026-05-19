@@ -1,6 +1,9 @@
 /* Tailwind v4 entry point */
 @import "tailwindcss";
 
+/* === shadcn/ui dark variant === */
+@custom-variant dark (&:is(.dark *));
+
 /* === Design Tokens: Rutas del Sol — Cultural - Artesanal === */
 
 /* Color palette — inspired by Andean textiles */
@@ -87,4 +90,78 @@ main {
 ::-webkit-scrollbar-thumb {
   background: var(--color-clay-400);
   border-radius: 3px;
+}
+
+/* === shadcn/ui Theme Variables === */
+/* Mapped from Rutas del Sol — Cultural Artesanal palette */
+
+:root {
+  --background: #fbf8f4;
+  --foreground: #1a1410;
+  --card: #f6efe8;
+  --card-foreground: #4a3829;
+  --popover: #fbf8f4;
+  --popover-foreground: #1a1410;
+  --primary: #d4a017;
+  --primary-foreground: #1a1410;
+  --secondary: #ede2d6;
+  --secondary-foreground: #4a3829;
+  --muted: #f6efe8;
+  --muted-foreground: #a88d72;
+  --accent: #6b2fa0;
+  --accent-foreground: #fbf8f4;
+  --destructive: #b83a2a;
+  --destructive-foreground: #fbf8f4;
+  --border: #ede2d6;
+  --input: #ede2d6;
+  --ring: #d4a017;
+  --radius: 0.75rem;
+}
+
+.dark {
+  --background: #1a1410;
+  --foreground: #fbf8f4;
+  --card: #2d221a;
+  --card-foreground: #fbf8f4;
+  --popover: #1a1410;
+  --popover-foreground: #fbf8f4;
+  --primary: #e8c547;
+  --primary-foreground: #1a1410;
+  --secondary: #4a3829;
+  --secondary-foreground: #fbf8f4;
+  --muted: #2d221a;
+  --muted-foreground: #c4ae97;
+  --accent: #9b59d4;
+  --accent-foreground: #fbf8f4;
+  --destructive: #d95c4a;
+  --destructive-foreground: #fbf8f4;
+  --border: #4a3829;
+  --input: #4a3829;
+  --ring: #e8c547;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 }
