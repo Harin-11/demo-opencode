@@ -1,0 +1,12 @@
+{
+	"sdd": {
+		"preflight": true,
+		"mode": "interactive",
+		"artifactStore": "both",
+		"chainedPR": "single-pr-default",
+		"reviewBudget": 400
+	},
+	"tools": {
+		"preferPnpm": true
+	}
+}

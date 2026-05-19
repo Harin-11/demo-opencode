@@ -1,0 +1,37 @@
+---
+import type { CTA } from '../data/types';
+
+export interface Props {
+  cta: CTA;
+  variant?: 'primary' | 'secondary' | 'outline';
+  icon?: string;
+  size?: 'default' | 'large';
+  class?: string;
+}
+
+const { cta, variant = 'primary', icon, size = 'default', class: className = '' } = Astro.props;
+
+const baseClass = 'group inline-flex items-center justify-center rounded-full font-medium transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-[0.98] cursor-pointer no-underline';
+const sizeClass = size === 'large' ? 'px-8 py-4 text-lg' : 'px-6 py-3 text-base';
+
+const variantClasses: Record<string, string> = {
+  primary: 'bg-inka-gold text-clay-950 hover:scale-[1.02]',
+  secondary: 'bg-transparent text-inka-gold ring-1 ring-inka-gold/40 hover:ring-inka-gold hover:scale-[1.02]',
+  outline: 'bg-transparent text-clay-900 hover:text-clay-950',
+};
+---
+
+<a
+  href={cta.href}
+  class={`${baseClass} ${sizeClass} ${variantClasses[variant]} ${className}`}
+>
+  <span class="mr-2">{cta.label}</span>
+  {icon && (
+    <span class="w-8 h-8 rounded-full bg-white/10 dark:bg-clay-950/10 flex items-center justify-center group-hover:translate-x-[2px] group-hover:-translate-y-[2px] transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]">
+      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        {icon === 'arrow-right' && <><line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" /></>}
+        {icon === 'arrow-up-right' && <><line x1="7" y1="17" x2="17" y2="7" /><polyline points="7 7 17 7 17 17" /></>}
+      </svg>
+    </span>
+  )}
+</a>

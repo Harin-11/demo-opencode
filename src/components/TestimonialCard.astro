@@ -1,0 +1,32 @@
+---
+import type { Testimonial as TestimonialType } from '../data/types';
+
+export interface Props {
+  testimonial: TestimonialType;
+  class?: string;
+}
+
+const { testimonial: t, class: className = '' } = Astro.props;
+---
+
+<div class={`${className}`}>
+  <div class="p-1.5 rounded-[2rem] bg-clay-200/60 border border-clay-200">
+    <div class="rounded-[calc(2rem-0.375rem)] bg-clay-50 p-8 shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)]">
+      <span class="block text-inka-gold text-5xl leading-none mb-2 font-serif">"</span>
+      <p class="text-clay-800 text-lg leading-relaxed mb-6">
+        {t.quote}
+      </p>
+      <div class="flex items-center gap-3">
+        {t.avatar && (
+          <img src={t.avatar} alt={t.author} class="w-10 h-10 rounded-full object-cover" />
+        )}
+        <div>
+          <p class="text-clay-950 font-medium text-sm">{t.author}</p>
+          {t.location && (
+            <p class="text-clay-600 text-xs">{t.location}</p>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

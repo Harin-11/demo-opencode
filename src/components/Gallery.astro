@@ -1,0 +1,101 @@
+---
+import { content } from '../data/content';
+import TestimonialCard from './TestimonialCard.astro';
+
+const { images, testimonials, metrics } = content.gallery;
+---
+
+<section id="galeria" class="bg-clay-50">
+  <!-- Cinematic gallery images with parallax -->
+  {images.map((img, i) => (
+    <div
+      data-gallery-image
+      class="relative w-full h-[50vh] md:h-[70vh] lg:h-[80vh] overflow-hidden"
+      class:list={{ 'bg-clay-100': i % 2 === 0, 'bg-clay-200/50': i % 2 !== 0 }}
+    >
+      <img
+        src={img.src}
+        alt={img.alt}
+        loading="lazy"
+        class="absolute inset-0 w-full h-full object-cover will-change-transform"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-clay-950/70 via-clay-950/20 to-transparent"></div>
+
+      {img.caption && (
+        <div
+          data-gallery-caption
+          class="absolute bottom-0 left-0 right-0 p-6 md:p-12 lg:p-16 opacity-0 translate-y-6"
+          class:list={{
+            'text-center': img.captionPosition === 'center' || img.captionPosition === 'bottom-center',
+            'text-left': img.captionPosition === 'bottom-left' || !img.captionPosition,
+            'inset-0 flex items-center justify-center': img.captionPosition === 'center',
+          }}
+        >
+          <p
+            class="text-clay-50 font-display font-bold text-xl md:text-3xl lg:text-4xl leading-tight max-w-3xl drop-shadow-lg"
+            class:list={{ 'mx-auto': img.captionPosition === 'center' || img.captionPosition === 'bottom-center' }}
+          >
+            {img.caption}
+          </p>
+        </div>
+      )}
+    </div>
+  ))}
+
+  <!-- Testimonials section with GSAP pin + stack -->
+  <div class="py-24 md:py-32 bg-clay-950">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+      <div class="mb-12 md:mb-16 max-w-3xl">
+        <p class="text-inka-gold text-sm uppercase tracking-[0.2em] font-medium mb-3">Voces del camino</p>
+        <h2 class="text-clay-50 font-display font-bold text-4xl md:text-5xl lg:text-6xl leading-[1.05] tracking-tight">
+          Lo que dicen quienes <span class="text-inka-gold">caminaron</span>
+        </h2>
+      </div>
+
+      <div id="testimonials-stack" class="space-y-6 md:space-y-8">
+        {testimonials.map((t) => (
+          <div data-testimonial-card class="w-full max-w-2xl mx-auto">
+            <TestimonialCard testimonial={t} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- Metrics row -->
+  <div class="py-20 md:py-28 bg-clay-100">
+    <div class="max-w-7xl mx-auto px-6 md:px-12">
+      <div id="metrics-row" class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+        {metrics.map((m) => (
+          <div data-metric class="text-center">
+            <p
+              data-metric-value
+              data-metric-target={m.value}
+              data-metric-suffix={m.suffix}
+              class="text-clay-950 font-display font-bold text-5xl md:text-6xl lg:text-7xl tracking-tight"
+            >
+              0
+            </p>
+            <p data-metric-label class="text-clay-600 text-sm md:text-base mt-2 uppercase tracking-wider">
+              {m.label}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { animateGalleryImages, animateTestimonials } from '../scripts/anim-gallery';
+  import { animateMetrics } from '../scripts/anim-metrics';
+
+  const section = document.getElementById('galeria');
+  animateGalleryImages(section);
+
+  const testimonialsContainer = document.getElementById('testimonials-stack');
+  animateTestimonials(testimonialsContainer);
+
+  const metricsContainer = document.getElementById('metrics-row');
+  animateMetrics(metricsContainer);
+</script>

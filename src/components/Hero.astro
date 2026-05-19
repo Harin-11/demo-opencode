@@ -1,0 +1,74 @@
+---
+import { content } from '../data/content';
+import MagneticButton from './MagneticButton.astro';
+
+const { hero } = content;
+---
+
+<section
+  id="hero"
+  class="relative min-h-[100dvh] flex items-center overflow-hidden bg-clay-950"
+>
+  <!-- Background image with overlay -->
+  <img
+    data-hero-bg
+    src={hero.bgImage}
+    alt={hero.bgImageAlt}
+    fetchpriority="high"
+    class="absolute inset-0 w-full h-full object-cover"
+  />
+  <div class="absolute inset-0 bg-gradient-to-b from-clay-950/40 via-clay-950/30 to-clay-950/70"></div>
+
+  <!-- Decorative geometric pattern -->
+  <div
+    data-hero-decorative
+    class="absolute top-20 right-[10%] w-24 h-24 opacity-60 hidden md:block"
+    aria-hidden="true"
+  >
+    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M50 10 L70 30 L50 50 L30 30 Z" fill="#d4a017" opacity="0.3"/>
+      <path d="M50 30 L60 40 L50 50 L40 40 Z" fill="#d4a017" opacity="0.5"/>
+      <path d="M50 50 L70 70 L50 90 L30 70 Z" fill="#d4a017" opacity="0.2"/>
+      <path d="M50 70 L60 80 L50 90 L40 80 Z" fill="#d4a017" opacity="0.4"/>
+    </svg>
+  </div>
+
+  <!-- Content -->
+  <div data-hero-content class="relative z-10 w-full max-w-6xl mx-auto px-6 md:px-12">
+    <div class="max-w-4xl">
+      <p class="text-inka-gold/80 text-sm uppercase tracking-[0.2em] font-medium mb-4 md:mb-6">
+        Turismo receptivo · Argentina
+      </p>
+
+      <h1
+        data-hero-heading
+        class="text-clay-50 font-display font-bold leading-[1.05] tracking-tight text-[clamp(2.5rem,5vw,5rem)] md:text-[clamp(3.5rem,6vw,5.5rem)] mb-4 md:mb-6 max-w-5xl"
+      >
+        {hero.heading}
+      </h1>
+
+      <p
+        data-hero-subheading
+        class="text-clay-300 text-lg md:text-xl font-light max-w-2xl mb-8 md:mb-10 leading-relaxed"
+      >
+        {hero.subheading}
+      </p>
+
+      <div class="flex flex-wrap gap-4 items-center">
+        <div data-hero-cta-primary>
+          <MagneticButton cta={hero.primaryCta} variant="primary" icon="arrow-right" size="large" />
+        </div>
+        <div data-hero-cta-secondary>
+          <MagneticButton cta={hero.secondaryCta} variant="secondary" icon="arrow-up-right" size="large" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { animateHero } from '../scripts/anim-hero';
+
+  const heroSection = document.getElementById('hero');
+  animateHero(heroSection);
+</script>

@@ -1,0 +1,10 @@
+# OpenSpec Configuration
+name: demo-opencode
+language: en
+default_path: specs
+
+# SDD config
+strict_tdd: false
+test_command: pnpm run build
+review_budget_lines: 400
+chained_pr_strategy: single-pr-default

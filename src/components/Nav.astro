@@ -1,0 +1,78 @@
+---
+import type { NavLink } from '../data/types';
+import { content } from '../data/content';
+
+export interface Props {
+  brandName?: string;
+  links?: NavLink[];
+}
+
+const { brandName = content.nav.brandName, links = content.nav.links } = Astro.props;
+---
+
+<nav>
+  <!-- Floating glass pill (desktop) -->
+  <div
+    id="nav-pill"
+    class="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-max rounded-full bg-clay-950/80 backdrop-blur-2xl border border-white/10 px-6 py-3 hidden md:flex items-center gap-8"
+  >
+    <a href="#" class="text-clay-100 font-display font-bold text-sm tracking-tight whitespace-nowrap">
+      {brandName}
+    </a>
+    <div class="flex items-center gap-6">
+      {links.map((link) => (
+        <a
+          href={link.href}
+          class="nav-link text-clay-400 hover:text-clay-100 transition-colors duration-300 text-sm font-medium"
+        >
+          {link.label}
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <!-- Mobile nav: hamburger + overlay -->
+  <div class="fixed top-4 right-4 z-50 md:hidden">
+    <button
+      id="hamburger-btn"
+      class="w-11 h-11 rounded-full bg-clay-950/80 backdrop-blur-2xl border border-white/10 flex flex-col items-center justify-center gap-[4px] cursor-pointer"
+      aria-label="Abrir menú"
+    >
+      <span class="block w-5 h-[1.5px] bg-clay-100 rounded-full transition-all duration-300"></span>
+      <span class="block w-5 h-[1.5px] bg-clay-100 rounded-full transition-all duration-300"></span>
+      <span class="block w-5 h-[1.5px] bg-clay-100 rounded-full transition-all duration-300"></span>
+    </button>
+  </div>
+
+  <!-- Mobile overlay menu -->
+  <div
+    id="mobile-menu"
+    class="fixed inset-0 z-40 bg-clay-950/95 backdrop-blur-3xl flex flex-col items-center justify-center gap-8 opacity-0 invisible md:hidden"
+  >
+    <a href="#" class="text-clay-100 font-display font-bold text-2xl mb-4">{brandName}</a>
+    {links.map((link) => (
+      <a
+        href={link.href}
+        class="nav-link text-clay-300 hover:text-clay-100 text-2xl font-medium transition-colors duration-300"
+      >
+        {link.label}
+      </a>
+    ))}
+  </div>
+</nav>
+
+<script>
+  import { animateNav, setupMobileNav, setupActiveSection } from '../scripts/anim-nav';
+
+  const navPill = document.getElementById('nav-pill');
+  const hamburgerBtn = document.getElementById('hamburger-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const navLinks = mobileMenu?.querySelectorAll('.nav-link');
+
+  animateNav(navPill);
+  setupMobileNav(hamburgerBtn, mobileMenu, navLinks);
+
+  // All nav links (desktop + mobile) for active section tracking
+  const allNavLinks = document.querySelectorAll('.nav-link');
+  setupActiveSection(allNavLinks);
+</script>

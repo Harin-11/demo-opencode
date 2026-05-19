@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import Features from '../components/Features.astro';
+import TrustBar from '../components/TrustBar.astro';
+import Gallery from '../components/Gallery.astro';
+import CtaSection from '../components/CtaSection.astro';
+import Footer from '../components/Footer.astro';
+import { content } from '../data/content';
+---
+
+<Layout title={content.seo.title} description={content.seo.description}>
+  <Nav />
+  <Hero />
+  <Features />
+  <TrustBar />
+  <Gallery />
+  <CtaSection />
+  <Footer />
+</Layout>

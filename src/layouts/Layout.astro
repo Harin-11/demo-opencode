@@ -1,0 +1,40 @@
+---
+import '../styles/global.css';
+import type { Content } from '../data/types';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  content?: Content;
+}
+
+const { title = 'Rutas del Sol — Turismo Receptivo', description = 'Descubrí la historia y paisajes de la región con Rutas del Sol. Trekking guiados, itinerarios cortos y experiencias culturales vivenciales.' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <meta name="keywords" content="turismo receptivo, trekking guiado, experiencias culturales, Rutas del Sol, viajes seguros" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_AR" />
+    <title>{title}</title>
+
+    <!-- Font loading: Satoshi + Cabinet Grotesk from Fontshare -->
+    <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+    <link rel="preload" as="style" href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&f[]=cabinet-grotesk@400,500,700,800&display=swap" />
+    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&f[]=cabinet-grotesk@400,500,700,800&display=swap" media="print" onload="this.media='all'" />
+  </head>
+  <body>
+    <main class="overflow-x-hidden w-full max-w-full">
+      <slot />
+    </main>
+  </body>
+</html>

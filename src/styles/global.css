@@ -1,0 +1,90 @@
+/* Tailwind v4 entry point */
+@import "tailwindcss";
+
+/* === Design Tokens: Rutas del Sol — Cultural - Artesanal === */
+
+/* Color palette — inspired by Andean textiles */
+@theme {
+  /* Earthy neutrals */
+  --color-clay-950: #1a1410;
+  --color-clay-900: #2d221a;
+  --color-clay-800: #4a3829;
+  --color-clay-700: #6b5240;
+  --color-clay-600: #8c6e56;
+  --color-clay-500: #a88d72;
+  --color-clay-400: #c4ae97;
+  --color-clay-300: #d9c8b6;
+  --color-clay-200: #ede2d6;
+  --color-clay-100: #f6efe8;
+  --color-clay-50: #fbf8f4;
+
+  /* Vibrant Andean accents */
+  --color-inka-gold: #d4a017;
+  --color-inka-gold-light: #e8c547;
+  --color-inka-red: #b83a2a;
+  --color-inka-red-light: #d95c4a;
+  --color-inka-purple: #6b2fa0;
+  --color-inka-purple-light: #9b59d4;
+  --color-inka-teal: #1a8a7a;
+  --color-inka-teal-light: #3ab8a6;
+
+  /* Natural greens */
+  --color-sierra-green: #4a7c59;
+  --color-sierra-green-light: #6da67a;
+  --color-sky-blue: #7ba9c9;
+  --color-sky-blue-light: #a8cce3;
+
+  /* Fonts */
+  --font-display: 'Cabinet Grotesk', 'Satoshi', sans-serif;
+  --font-body: 'Satoshi', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+/* Base styles */
+html {
+  scroll-behavior: smooth;
+  font-family: var(--font-body);
+  color: var(--color-clay-900);
+  background-color: var(--color-clay-50);
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Typography scale */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+/* Prevent horizontal scroll from GSAP animations */
+main {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Selection color */
+::selection {
+  background-color: var(--color-inka-gold);
+  color: var(--color-clay-950);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-clay-100);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-clay-400);
+  border-radius: 3px;
+}
