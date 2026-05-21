@@ -32,3 +32,4 @@ pnpm-debug.log*
 
 # Pi project settings (team-shareable, commit if needed)
 # .pi/  # uncomment if you want to commit Pi settings
+.vercel
