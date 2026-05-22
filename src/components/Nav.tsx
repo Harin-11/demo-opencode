@@ -137,47 +137,66 @@ export function Nav({ content: { brandName, links } }: NavProps) {
 					</SheetTrigger>
 					<SheetContent
 						side="top"
-						className="h-full bg-clay-950/95 backdrop-blur-3xl border-b border-white/10 flex flex-col items-center justify-center gap-8"
+						className="h-[100dvh] bg-clay-950/98 backdrop-blur-3xl border-b border-white/10 p-0 flex flex-col"
 					>
 						<SheetHeader className="sr-only">
 							<SheetTitle>Menú de navegación</SheetTitle>
 						</SheetHeader>
-						<div className="absolute top-4 right-4">
+
+						{/* Top bar inside sheet */}
+						<div className="flex items-center justify-between px-6 py-4 border-b border-white/5">
+							<a
+								href="#"
+								className="text-clay-100 font-display font-bold text-xl"
+								onClick={() => setMobileOpen(false)}
+							>
+								{brandName}
+							</a>
 							<Button
 								variant="ghost"
 								size="icon"
-								className="w-11 h-11 rounded-full bg-clay-950/80 backdrop-blur-2xl border border-white/10 text-clay-100 hover:bg-clay-950/90"
+								className="w-10 h-10 rounded-full bg-white/5 border border-white/10 text-clay-100 hover:bg-white/10"
 								onClick={() => setMobileOpen(false)}
 								aria-label="Cerrar menú"
 							>
 								<IconX className="h-5 w-5" />
 							</Button>
 						</div>
-						<a
-							href="#"
-							className="text-clay-100 font-display font-bold text-2xl mb-4"
-							onClick={() => setMobileOpen(false)}
-						>
-							{brandName}
-						</a>
-						{links.map((link) => (
-							<a
-								key={link.label}
-								href={link.href}
-								onClick={(e) => {
-									e.preventDefault();
-									handleNavClick(link.href);
-								}}
-								className={cn(
-									"nav-link text-2xl font-medium transition-colors duration-300",
-									activeSection === link.href.slice(1)
-										? "text-inka-gold"
-										: "text-clay-300 hover:text-clay-100",
-								)}
-							>
-								{link.label}
-							</a>
-						))}
+
+						{/* Links with staggered reveal */}
+						<nav className="flex-1 flex flex-col justify-center px-8 py-12 gap-4">
+							<p className="text-inka-gold text-[10px] uppercase tracking-[0.4em] font-bold mb-4 opacity-50">
+								Explorar
+							</p>
+							{links.map((link, i) => (
+								<motion.a
+									key={link.label}
+									href={link.href}
+									initial={{ opacity: 0, x: -20 }}
+									animate={{ opacity: 1, x: 0 }}
+									transition={{ delay: 0.1 + i * 0.1, duration: 0.5 }}
+									onClick={(e) => {
+										e.preventDefault();
+										handleNavClick(link.href);
+									}}
+									className={cn(
+										"text-4xl font-display font-bold transition-colors duration-300 py-2",
+										activeSection === link.href.slice(1)
+											? "text-inka-gold"
+											: "text-clay-300 hover:text-white",
+									)}
+								>
+									{link.label}
+								</motion.a>
+							))}
+						</nav>
+
+						{/* Footer area for breathing room */}
+						<div className="p-8 border-t border-white/5 bg-white/[0.02]">
+							<p className="text-clay-500 text-xs tracking-wider">
+								© 2025 {brandName} · Arequipa, Perú
+							</p>
+						</div>
 					</SheetContent>
 				</Sheet>
 			</div>

@@ -23,9 +23,9 @@ export const content: Content = {
 			"Trekking guiados · Experiencias culturales · Itinerarios cortos",
 		primaryCta: { label: "Explora experiencias", href: "#experiencias" },
 		secondaryCta: { label: "Ver itinerarios", href: "#itinerarios" },
-		bgImage: "https://picsum.photos/seed/arequipa-campina-verde/1920/1080",
+		bgImage: "https://picsum.photos/seed/arequipa-misti-high/1920/1080",
 		bgImageAlt:
-			"Campiña arequipeña con terrazas de cultivo y el Misti al fondo",
+			"Vista majestuosa del volcán Misti dominando el horizonte de Arequipa al amanecer",
 	},
 
 	features: {
@@ -37,7 +37,7 @@ export const content: Content = {
 					"Camina por senderos que las montañas guardan hace siglos. El Cañón del Colca, el Valle de los Volcanes, el Camino del Inca. Cada paso, una historia.",
 				variant: "image",
 				image: {
-					src: "https://picsum.photos/seed/colca-canyon-arequipa/800/600",
+					src: "https://picsum.photos/seed/colca-trek-1/800/600",
 					alt: "Cañón del Colca al amanecer con el vuelo del cóndor",
 				},
 				size: "wide",
@@ -49,8 +49,8 @@ export const content: Content = {
 					"Itinerarios de 1 a 3 días para quienes quieren lo esencial sin apurarse. Diseñados al ritmo de cada viajero.",
 				variant: "image",
 				image: {
-					src: "https://picsum.photos/seed/arequipa-plaza-armas/400/400",
-					alt: "Plaza de Armas de Arequipa con la Catedral al fondo",
+					src: "https://picsum.photos/seed/andes-view-1/800/800",
+					alt: "Viajero contemplando la inmensidad de los Andes",
 				},
 				size: "default",
 			},
@@ -58,10 +58,10 @@ export const content: Content = {
 				id: "cultural",
 				title: "Teje la memoria",
 				description:
-					"Visita el Monasterio de Santa Catalina, prueba la cocina arequipeña, recorre la Ruta del Sillar. El viaje no termina en el paisaje: entra en las manos que lo trabajan.",
+					"Visita el Monasterio de Santa Catalina, prueba la cocina arequipeña, recorre la Ruta del Sillar. El viaje no termina en el paisaje.",
 				variant: "image",
 				image: {
-					src: "https://picsum.photos/seed/santa-catalina-arequipa/400/600",
+					src: "https://picsum.photos/seed/santa-catalina-arch/400/800",
 					alt: "Monasterio de Santa Catalina, calles coloridas de Arequipa",
 				},
 				size: "tall",
@@ -70,46 +70,92 @@ export const content: Content = {
 				id: "seguridad",
 				title: "Cuidamos cada paso",
 				description:
-					"Guías bilingües, seguro de viaje, equipo certificado. Porque una gran aventura merece estar bien cuidada.",
-				variant: "icon",
-				icon: "shield-check",
-				size: "default",
+					"Guías certificados, seguro de viaje y equipo de primer nivel. Tu seguridad es nuestra prioridad en cada ruta.",
+				variant: "image",
+				image: {
+					src: "https://picsum.photos/seed/mountain-safety/800/400",
+					alt: "Equipo de montaña profesional y guías expertos",
+				},
+				size: "wide",
 			},
 			{
 				id: "conexion",
-				title: "Raíces que sostienen",
+				title: "Raíces vivas",
 				description:
-					"Conoce a las comunidades que hacen vivo este territorio. Turismo sustentable que respeta, celebra y devuelve.",
-				variant: "text",
+					"Conoce a las comunidades que hacen vivo este territorio. Turismo sustentable que respeta y celebra la cultura local.",
+				variant: "image",
+				image: {
+					src: "https://picsum.photos/seed/local-culture/800/800",
+					alt: "Encuentro cultural con tejedores locales en los Andes",
+				},
 				size: "default",
 			},
 		],
 	},
 
+	itineraries: {
+		title: "Itinerarios de autor",
+		subtitle: "Rutas diseñadas para descubrir el alma de Arequipa y sus alrededores",
+		items: [
+			{
+				id: "colca-clasico",
+				title: "Esencia del Colca",
+				duration: "2 Días / 1 Noche",
+				description: "Un viaje profundo al corazón del cañón más profundo del mundo. Avistamiento de cóndores, baños termales y pueblos tradicionales.",
+				image: "https://picsum.photos/seed/colca-condor-classic/800/1000",
+				highlights: ["Cruz del Cóndor", "Baños Termales La Calera", "Caminata por Yanque"]
+			},
+			{
+				id: "sillar-y-tradicion",
+				title: "Ruta del Sillar",
+				duration: "Medio Día",
+				description: "Descubre el origen de la 'Ciudad Blanca'. Visita las canteras de piedra volcánica y aprende sobre la arquitectura colonial.",
+				image: "https://picsum.photos/seed/sillar-quarry/800/1000",
+				highlights: ["Canteras de Añashuayco", "Quebrada de Culebrillas", "Petroglifos ancestrales"]
+			},
+			{
+				id: "misti-trek",
+				title: "Ascenso al Misti",
+				duration: "2 Días / 1 Noche",
+				description: "El desafío definitivo para los amantes de la montaña. Conquista la cima del guardián de la ciudad a 5,822 m.s.n.m.",
+				image: "https://picsum.photos/seed/misti-volcano-climb/800/1000",
+				highlights: ["Campamento base Nido de Águilas", "Vista panorámica de Arequipa", "Cima del volcán"]
+			},
+			{
+				id: "arequipa-gastronomica",
+				title: "Sabor y Cultura",
+				duration: "Full Day",
+				description: "Un recorrido por los mercados locales y las picanterías tradicionales para descubrir por qué Arequipa es la capital culinaria.",
+				image: "https://picsum.photos/seed/peruvian-food-culture/800/1000",
+				highlights: ["Mercado de San Camilo", "Picanterías tradicionales", "Monasterio de Santa Catalina"]
+			}
+		]
+	},
+
 	gallery: {
 		images: [
 			{
-				src: "https://picsum.photos/seed/arequipa-campina/1600/900",
+				src: "https://picsum.photos/seed/arequipa-valley/1600/900",
 				alt: "Campiña arequipeña con el Misti al fondo al amanecer",
 				caption:
 					"El sol nace entre los volcanes, igual que ayer, igual que hace siglos.",
 				captionPosition: "bottom-left",
 			},
 			{
-				src: "https://picsum.photos/seed/colca-condor-vuelo/1600/900",
+				src: "https://picsum.photos/seed/condor-flight/1600/900",
 				alt: "Cóndor andino volando sobre el Cañón del Colca",
 				caption: "El vuelo del cóndor cuenta lo que los mapas no dicen.",
 				captionPosition: "bottom-center",
 			},
 			{
-				src: "https://picsum.photos/seed/sillar-arquitectura/1200/1200",
-				alt: "Detalle de arquitectura en sillar, piedra volcánica blanca de Arequipa",
+				src: "https://picsum.photos/seed/inca-stones/1200/1200",
+				alt: "Arquitectura tradicional en los Andes",
 				caption:
 					"Cada piedra tiene un nombre. Cada color, una historia que no necesita palabras.",
 				captionPosition: "center",
 			},
 			{
-				src: "https://picsum.photos/seed/arequipa-atardecer/1600/900",
+				src: "https://picsum.photos/seed/misti-sunset/1600/900",
 				alt: "Atardecer en Arequipa con el Misti nevado al fondo",
 				caption: "El sendero no termina donde termina el camino.",
 				captionPosition: "bottom-left",
@@ -119,20 +165,23 @@ export const content: Content = {
 			{
 				quote:
 					"Una experiencia que transforma la forma de ver la montaña. Cada sendero tiene una historia y aquí saben contarla.",
-				author: "María Fernanda López",
-				location: "Arequipa, Perú",
+				author: "Valentina Rivera",
+				location: "Bogotá, Colombia",
+				avatar: "https://picsum.photos/seed/portrait-1/800/1000"
 			},
 			{
 				quote:
-					"Hicimos el trekking de 2 días por el Cañón del Colca. Todo impecable: los guías, la logística, la comida. Volvemos el año que viene.",
-				author: "Carlos y Patricia Mendoza",
-				location: "Santiago, Chile",
+					"Hicimos el trekking por el Cañón del Colca. Todo impecable: los guías, la logística y la conexión con la gente local.",
+				author: "Julian & Sarah Miller",
+				location: "Portland, USA",
+				avatar: "https://picsum.photos/seed/portrait-2/800/1000"
 			},
 			{
 				quote:
-					"La experiencia en el Monasterio de Santa Catalina fue lo más auténtico del viaje. Aprendí más en una tarde que en años de leer.",
-				author: "Sofía Reinhardt",
-				location: "Berlín, Alemania",
+					"La ruta del sillar y el Monasterio fueron reveladores. Es un viaje a las manos que construyeron esta ciudad blanca.",
+				author: "Marcus Thorne",
+				location: "Londres, UK",
+				avatar: "https://picsum.photos/seed/portrait-3/800/1000"
 			},
 		],
 		metrics: [
@@ -141,6 +190,16 @@ export const content: Content = {
 			{ value: 98, suffix: "%", label: "satisfacción" },
 			{ value: 7, suffix: "", label: "años de experiencia" },
 		],
+		partners: [
+			"National Geographic",
+			"Travel + Leisure",
+			"Lonely Planet",
+			"Condé Nast Traveler",
+			"The New York Times",
+			"BBC Travel",
+			"Rough Guides",
+			"Adventure Travel",
+		]
 	},
 
 	cta: {

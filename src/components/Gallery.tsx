@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, useCallback } from "react";
+import { useRef, useState, useCallback } from "react";
 import {
 	motion,
 	useInView,
@@ -7,32 +7,28 @@ import {
 	AnimatePresence,
 } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react";
+import { IconArrowLeft, IconArrowRight, IconQuote } from "@tabler/icons-react";
 import type {
 	Content,
 	Testimonial as TestimonialType,
-	Metric,
 } from "@/data/types";
 
 interface GalleryProps {
 	content: Content["gallery"];
 }
 
-/* ── Gallery Image with scroll-synced parallax ── */
+/* ── Gallery Image with cinematic entry reveal ── */
 function GalleryImage({ img }: { img: Content["gallery"]["images"][number] }) {
 	const ref = useRef<HTMLDivElement>(null!);
 	const { scrollYProgress } = useScroll({
 		target: ref,
 		offset: ["start end", "end start"],
 	});
-	const y = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
-	const opacity = useTransform(
-		scrollYProgress,
-		[0, 0.3, 0.7, 1],
-		[0.4, 1, 1, 0.3],
-	);
 
-	const captionInView = useInView(ref, { once: true, margin: "-20%" });
+	const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.5, 1, 0.5]);
+	const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1.1, 1, 1.1]);
+	
+	const isInView = useInView(ref, { once: true, margin: "-10%" });
 
 	const positionClass = (pos?: string) => {
 		if (pos === "center")
@@ -44,34 +40,42 @@ function GalleryImage({ img }: { img: Content["gallery"]["images"][number] }) {
 	return (
 		<div
 			ref={ref}
-			className={cn(
-				"relative w-full h-[50vh] md:h-[70vh] lg:h-[80vh] overflow-hidden bg-clay-950",
-			)}
+			className="relative w-full min-h-[60vh] md:min-h-[80vh] overflow-hidden bg-clay-950 flex items-center justify-center py-10"
 		>
-			<motion.img
-				src={img.src}
-				alt={img.alt}
-				loading="lazy"
-				className="absolute inset-0 w-full h-full object-cover will-change-transform bg-clay-950"
-				style={{ y, opacity }}
-			/>
-
-			{/* Dark gradient overlay for text readability */}
-			<div className="absolute inset-0 bg-gradient-to-t from-clay-950/60 via-transparent to-transparent pointer-events-none" />
+			<motion.div 
+				className="absolute inset-0 w-full h-full will-change-transform"
+				style={{ opacity, scale }}
+			>
+				<img
+					src={img.src}
+					alt={img.alt}
+					loading="lazy"
+					className="w-full h-full object-cover"
+				/>
+				{/* Animation Overlay (Curtain) */}
+				<motion.div 
+					className="absolute inset-0 bg-clay-950 z-20"
+					initial={{ scaleX: 1 }}
+					animate={isInView ? { scaleX: 0 } : {}}
+					transition={{ duration: 1.2, ease: [0.32, 0.72, 0, 1] }}
+					style={{ originX: 0 }}
+				/>
+				<div className="absolute inset-0 bg-gradient-to-t from-clay-950/70 via-clay-950/20 to-transparent pointer-events-none" />
+			</motion.div>
 
 			{img.caption && (
 				<motion.div
 					className={cn(
-						"absolute bottom-0 left-0 right-0 p-6 md:p-12 lg:p-16",
+						"absolute bottom-0 left-0 right-0 p-8 md:p-20 z-10",
 						positionClass(img.captionPosition),
 					)}
-					initial={{ opacity: 0, y: 24 }}
-					animate={captionInView ? { opacity: 1, y: 0 } : {}}
-					transition={{ duration: 0.8, delay: 0.2, ease: [0.32, 0.72, 0, 1] }}
+					initial={{ opacity: 0, y: 30 }}
+					whileInView={{ opacity: 1, y: 0 }}
+					transition={{ duration: 1, delay: 0.5, ease: [0.32, 0.72, 0, 1] }}
 				>
 					<p
 						className={cn(
-							"text-white font-display font-bold text-xl md:text-3xl lg:text-4xl leading-tight max-w-3xl drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)]",
+							"text-white font-display font-bold text-3xl md:text-5xl lg:text-7xl leading-[1.1] tracking-tighter max-w-4xl",
 							img.captionPosition === "center" ||
 								img.captionPosition === "bottom-center"
 								? "mx-auto"
@@ -86,7 +90,7 @@ function GalleryImage({ img }: { img: Content["gallery"]["images"][number] }) {
 	);
 }
 
-/* ── Animated Testimonials (adapted from 21st.dev/aceternity) ── */
+/* ── Redesigned Testimonials (Fixed mobile overlap) ── */
 function AnimatedTestimonials({
 	testimonials,
 }: {
@@ -103,167 +107,133 @@ function AnimatedTestimonials({
 		[testimonials.length],
 	);
 
-	useEffect(() => {
-		const timer = setInterval(handleNext, 6000);
-		return () => clearInterval(timer);
-	}, [handleNext]);
-
 	return (
-		<div className="max-w-3xl mx-auto">
-			<div className="relative min-h-[280px] md:min-h-[260px]">
-				<AnimatePresence mode="wait">
-					<motion.div
-						key={active}
-						initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
-						animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-						exit={{ opacity: 0, y: -20, filter: "blur(4px)" }}
-						transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
-						className="absolute inset-0"
-					>
-						<blockquote className="text-clay-100 font-display text-xl md:text-3xl leading-relaxed mb-6 italic">
-							&ldquo;{testimonials[active].quote}&rdquo;
-						</blockquote>
-						<cite className="not-italic">
-							<p className="text-clay-50 font-semibold text-base">
-								{testimonials[active].author}
-							</p>
-							{testimonials[active].location && (
-								<p className="text-clay-400 text-sm mt-1">
-									{testimonials[active].location}
-								</p>
-							)}
-						</cite>
-					</motion.div>
-				</AnimatePresence>
-			</div>
-
-			{/* Navigation dots */}
-			<div className="flex items-center justify-center gap-3 mt-8">
-				<button
-					onClick={handlePrev}
-					aria-label="Testimonio anterior"
-					className="h-10 w-10 rounded-full bg-inka-gold/10 border border-inka-gold/20 flex items-center justify-center group hover:bg-inka-gold/20 transition-colors"
-				>
-					<IconArrowLeft className="h-5 w-5 text-inka-gold group-hover:-translate-x-0.5 transition-transform" />
-				</button>
-
-				<div className="flex gap-2 mx-2">
-					{testimonials.map((_, i) => (
-						<button
-							key={i}
-							onClick={() => setActive(i)}
-							aria-label={`Ir al testimonio ${i + 1}`}
-							className={cn(
-								"h-2 rounded-full transition-all duration-500",
-								i === active
-									? "w-8 bg-inka-gold"
-									: "w-2 bg-inka-gold/30 hover:bg-inka-gold/50",
-							)}
-						/>
-					))}
+		<div className="relative mt-12 md:mt-32">
+			{/* Layout Wrapper: Stacked on mobile, overlapped on desktop */}
+			<div className="flex flex-col md:block relative h-auto md:h-[700px] overflow-hidden rounded-[3rem] bg-clay-900 border border-white/5">
+				
+				{/* Image Container */}
+				<div className="relative h-[400px] md:h-full w-full overflow-hidden">
+					<AnimatePresence mode="popLayout">
+						<motion.div
+							key={active}
+							initial={{ opacity: 0, scale: 1.1 }}
+							animate={{ opacity: 1, scale: 1 }}
+							exit={{ opacity: 0, scale: 0.95 }}
+							transition={{ duration: 1.2, ease: [0.32, 0.72, 0, 1] }}
+							className="absolute inset-0"
+						>
+							<img 
+								src={testimonials[active].avatar || `https://picsum.photos/seed/portrait-${active}/800/1000`} 
+								alt={testimonials[active].author}
+								className="w-full h-full object-cover grayscale-[0.3]"
+							/>
+							<div className="absolute inset-0 bg-gradient-to-r from-clay-950 via-clay-950/40 to-transparent hidden md:block" />
+							<div className="absolute inset-0 bg-gradient-to-t from-clay-950 via-transparent to-transparent" />
+						</motion.div>
+					</AnimatePresence>
 				</div>
 
-				<button
-					onClick={handleNext}
-					aria-label="Siguiente testimonio"
-					className="h-10 w-10 rounded-full bg-inka-gold/10 border border-inka-gold/20 flex items-center justify-center group hover:bg-inka-gold/20 transition-colors"
-				>
-					<IconArrowRight className="h-5 w-5 text-inka-gold group-hover:translate-x-0.5 transition-transform" />
-				</button>
+				{/* Content Container */}
+				<div className="relative md:absolute inset-0 flex flex-col md:flex-row items-center p-8 md:p-0">
+					<div className="max-w-7xl mx-auto px-0 md:px-20 w-full grid grid-cols-1 md:grid-cols-2 gap-12">
+						<div className="relative z-10">
+							<motion.div
+								key={`quote-${active}`}
+								initial={{ opacity: 0, y: 30 }}
+								animate={{ opacity: 1, y: 0 }}
+								transition={{ duration: 0.8, delay: 0.4, ease: [0.32, 0.72, 0, 1] }}
+							>
+								<IconQuote size={60} className="text-inka-gold mb-8 md:mb-10 opacity-40" />
+								<blockquote className="text-white font-display text-2xl md:text-5xl lg:text-6xl leading-[1.1] tracking-tighter mb-8 md:mb-12 italic">
+									&ldquo;{testimonials[active].quote}&rdquo;
+								</blockquote>
+								<cite className="not-italic flex items-center gap-4 md:gap-6">
+									<div className="h-[1px] w-8 md:w-12 bg-inka-gold" />
+									<div>
+										<p className="text-white font-display font-bold text-xl md:text-2xl tracking-tight">
+											{testimonials[active].author}
+										</p>
+										<p className="text-inka-gold/70 text-xs md:text-base mt-1 uppercase tracking-[0.3em] font-bold">
+											{testimonials[active].location}
+										</p>
+									</div>
+								</cite>
+							</motion.div>
+						</div>
+					</div>
+
+					{/* Controls Overlay */}
+					<div className="mt-12 md:mt-0 md:absolute bottom-12 right-0 md:right-12 flex items-center gap-6 md:gap-8 z-20">
+						<div className="flex flex-col items-end gap-2">
+							<p className="text-white/40 font-mono text-[10px] md:text-sm tracking-widest uppercase">Viajeros</p>
+							<div className="flex gap-1.5 md:gap-2">
+								{testimonials.map((_, i) => (
+									<div 
+										key={i} 
+										className={cn(
+											"h-1 transition-all duration-500 rounded-full",
+											i === active ? "w-6 md:w-8 bg-inka-gold" : "w-2 md:w-3 bg-white/20"
+										)}
+									/>
+								))}
+							</div>
+						</div>
+						<div className="flex gap-3 md:gap-4">
+							<button
+								onClick={handlePrev}
+								className="h-14 w-14 md:h-16 md:w-16 rounded-full border border-white/10 bg-white/5 backdrop-blur-md flex items-center justify-center text-white hover:bg-white hover:text-clay-950 transition-all active:scale-95"
+							>
+								<IconArrowLeft size={24} />
+							</button>
+							<button
+								onClick={handleNext}
+								className="h-14 w-14 md:h-16 md:w-16 rounded-full border border-white/10 bg-white/5 backdrop-blur-md flex items-center justify-center text-white hover:bg-white hover:text-clay-950 transition-all active:scale-95"
+							>
+								<IconArrowRight size={24} />
+							</button>
+						</div>
+					</div>
+				</div>
 			</div>
-		</div>
-	);
-}
-
-/* ── Animated Metric Counter ── */
-function MetricCounter({
-	metric,
-	inView,
-}: {
-	metric: Metric;
-	inView: boolean;
-}) {
-	const [count, setCount] = useState(0);
-
-	useEffect(() => {
-		if (!inView) return;
-		const duration = 2000;
-		const steps = 60;
-		const increment = metric.value / steps;
-		let current = 0;
-		const timer = setInterval(() => {
-			current += increment;
-			if (current >= metric.value) {
-				setCount(metric.value);
-				clearInterval(timer);
-			} else {
-				setCount(Math.floor(current));
-			}
-		}, duration / steps);
-		return () => clearInterval(timer);
-	}, [inView, metric.value]);
-
-	return (
-		<div className="text-center">
-			<p className="text-clay-950 font-display font-bold text-5xl md:text-6xl lg:text-7xl tracking-tight">
-				{count}
-				{metric.suffix}
-			</p>
-			<p className="text-clay-600 text-sm md:text-base mt-2 uppercase tracking-wider">
-				{metric.label}
-			</p>
 		</div>
 	);
 }
 
 /* ── Gallery (main export) ── */
 export function Gallery({
-	content: { images, testimonials, metrics },
+	content: { images, testimonials },
 }: GalleryProps) {
-	const metricsRef = useRef<HTMLDivElement>(null!);
-	const metricsInView = useInView(metricsRef, { once: true, margin: "-100px" });
-
 	return (
-		<section id="galeria" className="bg-clay-50">
-			{/* Cinematic images */}
-			{images.map((img, i) => (
-				<GalleryImage key={i} img={img} />
-			))}
+		<section id="galeria" className="p-0 bg-clay-50 overflow-hidden">
+			{/* Cinematic focused images */}
+			<div className="flex flex-col">
+				{images.map((img, i) => (
+					<GalleryImage key={i} img={img} />
+				))}
+			</div>
 
 			{/* Testimonials */}
-			<div className="py-24 md:py-32 bg-clay-950">
-				<div className="max-w-7xl mx-auto px-6 md:px-12">
+			<div className="py-24 md:py-32 bg-clay-950 overflow-hidden relative">
+				<div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-inka-gold/[0.05] rounded-full blur-[160px] pointer-events-none" />
+				
+				<div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
 					<motion.div
-						className="mb-12 md:mb-16 max-w-3xl"
-						initial={{ opacity: 0, y: 24 }}
+						className="text-center md:text-left max-w-4xl"
+						initial={{ opacity: 0, y: 30 }}
 						whileInView={{ opacity: 1, y: 0 }}
-						viewport={{ once: true, margin: "-100px" }}
-						transition={{ duration: 0.7, ease: [0.32, 0.72, 0, 1] }}
+						viewport={{ once: true }}
+						transition={{ duration: 0.8, ease: [0.32, 0.72, 0, 1] }}
 					>
-						<p className="text-inka-gold text-sm uppercase tracking-[0.2em] font-medium mb-3">
+						<p className="text-inka-gold text-[10px] uppercase tracking-[0.4em] font-bold mb-6">
 							Voces del camino
 						</p>
-						<h2 className="text-clay-50 font-display font-bold text-4xl md:text-5xl lg:text-6xl leading-[1.05] tracking-tight">
-							Lo que dicen quienes{" "}
-							<span className="text-inka-gold">caminaron</span>
+						<h2 className="text-white font-display font-bold text-4xl md:text-6xl lg:text-8xl leading-[1] tracking-tighter">
+							Historias que <span className="text-inka-gold">inspiran</span> a seguir
 						</h2>
 					</motion.div>
 
 					<AnimatedTestimonials testimonials={testimonials} />
-				</div>
-			</div>
-
-			{/* Metrics */}
-			<div className="py-20 md:py-28 bg-clay-100">
-				<div className="max-w-7xl mx-auto px-6 md:px-12">
-					<div
-						ref={metricsRef}
-						className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12"
-					>
-						{metrics.map((m, i) => (
-							<MetricCounter key={i} metric={m} inView={metricsInView} />
-						))}
-					</div>
 				</div>
 			</div>
 		</section>

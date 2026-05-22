@@ -1,6 +1,7 @@
-import { useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { IconX, IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import type { Content, FeatureCard as FeatureCardType } from "@/data/types";
 
 interface FeaturesProps {
@@ -23,12 +24,14 @@ function sizeClasses(size: FeatureCardType["size"]): string {
 function FeatureCard({
 	card,
 	index,
+	onOpen,
 }: {
 	card: FeatureCardType;
 	index: number;
+	onOpen: (card: FeatureCardType) => void;
 }) {
 	const ref = useRef<HTMLDivElement>(null!);
-	const isInView = useInView(ref, { once: true, margin: "-80px" });
+	const isInView = useInView(ref, { once: true, margin: "-40px" });
 	const [tilt, setTilt] = useState({ x: 0, y: 0 });
 
 	function handleMouseMove(e: React.MouseEvent) {
@@ -36,7 +39,7 @@ function FeatureCard({
 		const rect = card.getBoundingClientRect();
 		const x = (e.clientX - rect.left) / rect.width - 0.5;
 		const y = (e.clientY - rect.top) / rect.height - 0.5;
-		setTilt({ x: y * -4, y: x * 4 });
+		setTilt({ x: y * -6, y: x * 6 });
 	}
 
 	function handleMouseLeave() {
@@ -46,79 +49,59 @@ function FeatureCard({
 	return (
 		<motion.div
 			ref={ref}
-			className={cn(sizeClasses(card.size))}
-			initial={{ opacity: 0, y: 40, filter: "blur(6px)" }}
+			className={cn(
+				sizeClasses(card.size),
+				"relative h-full shrink-0 snap-start w-[85vw] md:w-full"
+			)}
+			initial={{ opacity: 0, y: 40, filter: "blur(10px)" }}
 			animate={isInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
 			transition={{
 				duration: 0.8,
-				delay: 0.3 + index * 0.12,
+				delay: index * 0.1,
 				ease: [0.32, 0.72, 0, 1],
 			}}
+			onClick={() => onOpen(card)}
 		>
 			<motion.div
-				className="p-1.5 rounded-[2rem] bg-clay-200/60 border border-clay-200 h-full group cursor-pointer transition-shadow duration-500 hover:shadow-[0_8px_40px_rgba(0,0,0,0.08)]"
+				className="p-2 rounded-[2.5rem] bg-clay-200/40 border border-clay-200/50 h-full group cursor-pointer overflow-hidden"
 				style={{
 					rotateX: tilt.x,
 					rotateY: tilt.y,
 					transformStyle: "preserve-3d",
 				}}
+				animate={{
+					rotateX: tilt.x,
+					rotateY: tilt.y,
+				}}
+				transition={{ type: "spring", stiffness: 100, damping: 20 }}
 				onMouseMove={handleMouseMove}
 				onMouseLeave={handleMouseLeave}
 			>
-				<div className="rounded-[calc(2rem-0.375rem)] bg-clay-50 shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)] h-full overflow-hidden">
-					{card.variant === "image" && card.image && (
-						<div className="relative h-full min-h-[300px]">
+				<div className="rounded-[calc(2.5rem-0.5rem)] bg-clay-200 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)] h-full overflow-hidden relative">
+					{card.image && (
+						<div className="relative h-full min-h-[400px] md:min-h-[350px]">
 							<motion.img
 								src={card.image.src}
 								alt={card.image.alt}
 								loading="lazy"
-								className="absolute inset-0 w-full h-full object-cover"
-								whileHover={{ scale: 1.05 }}
-								transition={{ duration: 0.8, ease: [0.32, 0.72, 0, 1] }}
+								className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
 							/>
-							{/* Stronger gradient overlay for text readability */}
-							<div className="absolute inset-0 bg-gradient-to-t from-clay-950/85 via-clay-950/35 to-clay-950/5" />
-							<div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
-								<h3 className="text-white font-display font-bold text-xl md:text-2xl mb-2 drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]">
-									{card.title}
-								</h3>
-								<p className="text-white/85 text-sm md:text-base leading-relaxed max-w-md drop-shadow-[0_1px_4px_rgba(0,0,0,0.4)]">
-									{card.description}
-								</p>
-							</div>
-						</div>
-					)}
-
-					{(card.variant === "text" || card.variant === "icon") && (
-						<div className="p-6 md:p-8 flex flex-col justify-center h-full">
-							{card.variant === "icon" && (
+							<div className="absolute inset-0 bg-gradient-to-t from-clay-950/80 via-clay-950/20 to-transparent" />
+							
+							<div className="absolute bottom-0 left-0 right-0 p-8 md:p-10 flex flex-col justify-end h-full">
 								<motion.div
-									className="w-14 h-14 rounded-full bg-inka-gold/10 flex items-center justify-center mb-4"
-									whileHover={{
-										scale: 1.1,
-										backgroundColor: "rgba(212,160,23,0.2)",
-									}}
-									transition={{ duration: 0.3 }}
+									initial={{ opacity: 0, y: 10 }}
+									animate={isInView ? { opacity: 1, y: 0 } : {}}
+									transition={{ delay: 0.5 + index * 0.1, duration: 0.8 }}
 								>
-									<svg
-										className="w-7 h-7 text-inka-gold"
-										viewBox="0 0 24 24"
-										fill="none"
-										stroke="currentColor"
-										strokeWidth="2"
-										strokeLinecap="round"
-										strokeLinejoin="round"
-									>
-										<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-									</svg>
+									<h3 className="text-white font-display font-bold text-2xl md:text-3xl mb-3 tracking-tight">
+										{card.title}
+									</h3>
+									<p className="text-white/70 text-sm md:text-base leading-relaxed max-w-sm">
+										{card.description}
+									</p>
 								</motion.div>
-							)}
-							<h3 className="text-clay-950 font-display font-bold text-xl md:text-2xl mb-2 group-hover:text-clay-900 transition-colors duration-300">
-								{card.title}
-							</h3>
-							<p className="text-clay-700 text-sm md:text-base leading-relaxed">
-								{card.description}
-							</p>
+							</div>
 						</div>
 					)}
 				</div>
@@ -128,58 +111,154 @@ function FeatureCard({
 }
 
 export function Features({ content: { cards } }: FeaturesProps) {
+	const [selected, setSelected] = useState<FeatureCardType | null>(null);
+	const scrollRef = useRef<HTMLDivElement>(null!);
+	const [activeIndex, setActiveIndex] = useState(0);
+
+	// Track scroll position for indicators
+	const handleScroll = () => {
+		if (!scrollRef.current) return;
+		const { scrollLeft, offsetWidth } = scrollRef.current;
+		const index = Math.round(scrollLeft / (offsetWidth * 0.85));
+		setActiveIndex(index);
+	};
+
+	const scrollToIndex = (index: number) => {
+		if (!scrollRef.current) return;
+		const itemWidth = scrollRef.current.offsetWidth * 0.85;
+		scrollRef.current.scrollTo({ left: index * itemWidth, behavior: "smooth" });
+	};
+
 	return (
 		<>
 			<span id="itinerarios" className="block" aria-hidden="true" />
 
 			<section
 				id="experiencias"
-				className="py-28 md:py-36 bg-clay-50 relative overflow-hidden"
+				className="bg-clay-50 relative overflow-hidden"
 			>
-				{/* Subtle decorative background */}
 				<div
-					className="absolute top-0 right-0 w-[400px] h-[400px] bg-inka-gold/[0.03] rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"
+					className="absolute top-0 right-0 w-[600px] h-[600px] bg-inka-gold/[0.03] rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 pointer-events-none"
 					aria-hidden="true"
 				/>
 
 				<div className="max-w-7xl mx-auto px-6 md:px-12">
-					{/* Section header with animated line */}
 					<motion.div
-						className="mb-14 md:mb-20 max-w-3xl"
+						className="mb-16 md:mb-20"
 						initial={{ opacity: 0, y: 30 }}
 						whileInView={{ opacity: 1, y: 0 }}
 						viewport={{ once: true, margin: "-100px" }}
 						transition={{ duration: 0.8, ease: [0.32, 0.72, 0, 1] }}
 					>
-						<div className="flex items-center gap-4 mb-4">
+						<div className="flex items-center gap-4 mb-6">
 							<motion.div
-								className="h-[2px] bg-inka-gold/60"
+								className="h-[1px] bg-inka-gold/40"
 								initial={{ width: 0 }}
-								whileInView={{ width: 40 }}
+								whileInView={{ width: 60 }}
 								viewport={{ once: true }}
 								transition={{
-									duration: 0.8,
+									duration: 1,
 									delay: 0.3,
 									ease: [0.32, 0.72, 0, 1],
 								}}
 							/>
-							<p className="text-inka-gold text-sm uppercase tracking-[0.2em] font-medium">
+							<p className="text-inka-gold text-[10px] uppercase tracking-[0.4em] font-bold">
 								Experiencias
 							</p>
 						</div>
-						<h2 className="text-clay-950 font-display font-bold text-4xl md:text-5xl lg:text-6xl leading-[1.05] tracking-tight">
-							Vive la <span className="text-inka-gold">cordillera</span> en cada
-							paso
+						<h2 className="text-clay-950 font-display font-bold text-4xl md:text-6xl lg:text-7xl leading-[1] tracking-tighter max-w-4xl">
+							Caminos que <span className="text-inka-gold">transforman</span> el espíritu
 						</h2>
 					</motion.div>
 
-					{/* Bento grid */}
-					<div className="grid grid-cols-1 md:grid-cols-4 gap-0 md:grid-flow-dense bg-clay-50">
+					{/* Bento grid with horizontal scroll on mobile */}
+					<div 
+						ref={scrollRef}
+						onScroll={handleScroll}
+						className="flex md:grid md:grid-cols-4 gap-6 md:gap-8 overflow-x-auto md:overflow-x-visible pb-8 md:pb-0 snap-x snap-mandatory [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden -mx-6 px-6 md:mx-0 md:px-0"
+					>
 						{cards.map((card, i) => (
-							<FeatureCard key={card.id} card={card} index={i} />
+							<FeatureCard key={card.id} card={card} index={i} onOpen={setSelected} />
 						))}
 					</div>
+
+					{/* Mobile Navigation Controls */}
+					<div className="flex md:hidden items-center justify-between mt-8">
+						<div className="flex gap-2">
+							{cards.map((_, i) => (
+								<button
+									key={i}
+									onClick={() => scrollToIndex(i)}
+									className={cn(
+										"h-1 transition-all duration-500 rounded-full",
+										i === activeIndex ? "w-8 bg-inka-gold" : "w-3 bg-clay-200"
+									)}
+									aria-label={`Ir a tarjeta ${i + 1}`}
+								/>
+							))}
+						</div>
+						<div className="flex gap-3">
+							<button
+								onClick={() => scrollToIndex(activeIndex - 1)}
+								disabled={activeIndex === 0}
+								className="w-12 h-12 rounded-full border border-clay-200 flex items-center justify-center text-clay-900 disabled:opacity-30 disabled:cursor-not-allowed"
+							>
+								<IconChevronLeft size={20} />
+							</button>
+							<button
+								onClick={() => scrollToIndex(activeIndex + 1)}
+								disabled={activeIndex === cards.length - 1}
+								className="w-12 h-12 rounded-full border border-clay-200 flex items-center justify-center text-clay-900 disabled:opacity-30 disabled:cursor-not-allowed"
+							>
+								<IconChevronRight size={20} />
+							</button>
+						</div>
+					</div>
 				</div>
+
+				{/* Lightbox / Modal */}
+				<AnimatePresence>
+					{selected && (
+						<motion.div
+							initial={{ opacity: 0 }}
+							animate={{ opacity: 1 }}
+							exit={{ opacity: 0 }}
+							className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-12 bg-clay-950/95 backdrop-blur-xl"
+							onClick={() => setSelected(null)}
+						>
+							<motion.div
+								initial={{ scale: 0.9, y: 20 }}
+								animate={{ scale: 1, y: 0 }}
+								exit={{ scale: 0.9, y: 20 }}
+								className="relative max-w-5xl w-full aspect-[4/5] md:aspect-video rounded-[3rem] overflow-hidden bg-clay-900 shadow-2xl"
+								onClick={(e) => e.stopPropagation()}
+							>
+								<img 
+									src={selected.image?.src} 
+									alt={selected.title} 
+									className="w-full h-full object-cover"
+								/>
+								<div className="absolute inset-0 bg-gradient-to-t from-clay-950 via-transparent to-transparent opacity-80" />
+								
+								<div className="absolute bottom-0 left-0 right-0 p-8 md:p-16">
+									<h2 className="text-white font-display font-bold text-3xl md:text-5xl mb-6 tracking-tighter">
+										{selected.title}
+									</h2>
+									<p className="text-white/70 text-sm md:text-lg max-w-3xl leading-relaxed">
+										{selected.description}
+									</p>
+								</div>
+
+								<button 
+									className="absolute top-8 right-8 w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all"
+									onClick={() => setSelected(null)}
+								>
+									<IconX size={24} />
+								</button>
+							</motion.div>
+						</motion.div>
+					)}
+				</AnimatePresence>
 			</section>
 		</>
 	);

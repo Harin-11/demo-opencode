@@ -41,6 +41,15 @@ export interface Testimonial {
 	avatar?: string;
 }
 
+export interface Itinerary {
+	id: string;
+	title: string;
+	duration: string;
+	description: string;
+	image: string;
+	highlights: string[];
+}
+
 export interface Metric {
 	value: number;
 	suffix?: string;
@@ -74,10 +83,16 @@ export interface Content {
 	features: {
 		cards: FeatureCard[];
 	};
+	itineraries: {
+		title: string;
+		subtitle: string;
+		items: Itinerary[];
+	};
 	gallery: {
 		images: GalleryImage[];
 		testimonials: Testimonial[];
 		metrics: Metric[];
+		partners?: string[];
 	};
 	cta: {
 		heading: string;

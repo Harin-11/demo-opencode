@@ -142,32 +142,37 @@ export function Hero({ content: hero }: HeroProps) {
 
 			{/* Content */}
 			<motion.div
-				className="relative z-10 w-full max-w-6xl mx-auto px-6 md:px-12"
+				className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12"
 				initial={{ opacity: 0, y: 50, filter: "blur(10px)" }}
 				animate={
 					isInView
 						? { opacity: 1, y: 0, filter: "blur(0px)" }
 						: { opacity: 0, y: 50, filter: "blur(10px)" }
 				}
-				transition={{ duration: 1.0, delay: 0.4, ease: [0.32, 0.72, 0, 1] }}
+				transition={{ duration: 1.2, delay: 0.4, ease: [0.32, 0.72, 0, 1] }}
 			>
-				<div className="max-w-4xl">
-					<motion.p
-						className="text-inka-gold text-sm uppercase tracking-[0.25em] font-medium mb-4 md:mb-6"
-						initial={{ opacity: 0, y: 16 }}
-						animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-						transition={{ duration: 0.7, delay: 0.6, ease: [0.32, 0.72, 0, 1] }}
+				<div className="max-w-5xl">
+					<motion.div
+						className="flex items-center gap-3 mb-8"
+						initial={{ opacity: 0, x: -20 }}
+						animate={isInView ? { opacity: 1, x: 0 } : {}}
+						transition={{ duration: 0.8, delay: 0.6, ease: [0.32, 0.72, 0, 1] }}
 					>
-						Turismo receptivo · Perú
-					</motion.p>
+						<div className="px-4 py-1.5 rounded-full bg-clay-950/20 backdrop-blur-md border border-white/10 flex items-center gap-3">
+							<span className="w-2 h-2 rounded-full bg-inka-gold animate-pulse" />
+							<p className="text-inka-gold text-[10px] uppercase tracking-[0.4em] font-bold">
+								Arequipa · Perú
+							</p>
+						</div>
+					</motion.div>
 
 					<motion.h1
-						className="text-white font-display font-bold leading-[1.05] tracking-tight text-[clamp(2.8rem,5.5vw,5.5rem)] md:text-[clamp(4rem,7vw,6.5rem)] mb-4 md:mb-6 max-w-5xl drop-shadow-[0_4px_24px_rgba(0,0,0,0.5)]"
-						initial={{ opacity: 0, y: 20 }}
-						animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+						className="text-white font-display font-bold leading-[0.95] tracking-tighter text-5xl md:text-7xl lg:text-8xl mb-10 max-w-6xl drop-shadow-[0_4px_32px_rgba(0,0,0,0.6)]"
+						initial={{ opacity: 0, y: 30 }}
+						animate={isInView ? { opacity: 1, y: 0 } : {}}
 						transition={{
-							duration: 0.8,
-							delay: 0.8,
+							duration: 1,
+							delay: 0.7,
 							ease: [0.32, 0.72, 0, 1],
 						}}
 					>
@@ -175,37 +180,43 @@ export function Hero({ content: hero }: HeroProps) {
 					</motion.h1>
 
 					<motion.p
-						className="text-white/85 text-lg md:text-xl font-light max-w-2xl mb-8 md:mb-10 leading-relaxed drop-shadow-[0_2px_12px_rgba(0,0,0,0.4)]"
-						initial={{ opacity: 0, y: 16 }}
-						animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-						transition={{ duration: 0.7, delay: 1.0, ease: [0.32, 0.72, 0, 1] }}
+						className="text-white/80 text-xl md:text-2xl font-light max-w-2xl mb-12 md:mb-16 leading-relaxed"
+						initial={{ opacity: 0, y: 20 }}
+						animate={isInView ? { opacity: 1, y: 0 } : {}}
+						transition={{ duration: 0.8, delay: 0.9, ease: [0.32, 0.72, 0, 1] }}
 					>
 						{hero.subheading}
 					</motion.p>
 
 					<motion.div
-						className="flex flex-wrap gap-4 items-center"
-						initial={{ opacity: 0, y: 16 }}
-						animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+						className="flex flex-wrap gap-6 items-center"
+						initial={{ opacity: 0, y: 20 }}
+						animate={isInView ? { opacity: 1, y: 0 } : {}}
 						transition={{
-							duration: 0.7,
-							delay: 1.2,
+							duration: 0.8,
+							delay: 1.1,
 							ease: [0.32, 0.72, 0, 1],
 						}}
 					>
-						<a
-							href={hero.primaryCta.href}
-							className="group/button inline-flex shrink-0 items-center justify-center rounded-full h-13 px-8 bg-inka-gold text-clay-950 hover:bg-inka-gold-light font-semibold text-base whitespace-nowrap transition-all select-none shadow-[0_4px_20px_rgba(212,160,23,0.3)] hover:shadow-[0_6px_28px_rgba(212,160,23,0.45)]"
-						>
-							{hero.primaryCta.label}
-							<IconArrowRight className="ml-2 h-4 w-4 shrink-0 transition-transform duration-300 group-hover/button:translate-x-1.5" />
-						</a>
+						{/* Double-Bezel Button */}
+						<div className="p-1 rounded-full bg-inka-gold/20 border border-inka-gold/30">
+							<a
+								href={hero.primaryCta.href}
+								className="group/button relative inline-flex items-center justify-center rounded-full h-14 px-10 bg-inka-gold text-clay-950 font-bold text-base whitespace-nowrap transition-all shadow-xl hover:shadow-inka-gold/20 active:scale-95 overflow-hidden"
+							>
+								{hero.primaryCta.label}
+								<div className="ml-3 w-8 h-8 rounded-full bg-clay-950/10 flex items-center justify-center transition-transform duration-500 group-hover/button:translate-x-1">
+									<IconArrowRight size={18} />
+								</div>
+							</a>
+						</div>
+
 						<a
 							href={hero.secondaryCta.href}
-							className="group/button inline-flex shrink-0 items-center justify-center rounded-full h-13 px-8 bg-white/10 backdrop-blur-sm border border-white/25 text-white hover:bg-white/20 hover:border-white/40 font-medium text-base whitespace-nowrap transition-all select-none"
+							className="group/button inline-flex items-center justify-center rounded-full h-14 px-10 bg-white/5 backdrop-blur-md border border-white/20 text-white hover:bg-white/10 hover:border-white/40 font-semibold text-base whitespace-nowrap transition-all active:scale-95"
 						>
 							{hero.secondaryCta.label}
-							<IconArrowUpRight className="ml-2 h-4 w-4 shrink-0 transition-transform duration-300 group-hover/button:translate-x-0.5 group-hover/button:-translate-y-0.5" />
+							<IconArrowUpRight className="ml-2 h-5 w-5 transition-transform duration-500 group-hover/button:translate-x-1 group-hover/button:-translate-y-1" />
 						</a>
 					</motion.div>
 				</div>

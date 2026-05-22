@@ -4,6 +4,7 @@ import { PageEntrance } from '../components/PageEntrance';
 import { Nav } from '../components/Nav';
 import { Hero } from '../components/Hero';
 import { Features } from '../components/Features';
+import { Itineraries } from '../components/Itineraries';
 import { TrustBar } from '../components/TrustBar';
 import { Gallery } from '../components/Gallery';
 import { CtaSection } from '../components/CtaSection';
@@ -16,8 +17,9 @@ import { content } from '../data/content';
   <Nav client:load content={content.nav} />
   <Hero client:load content={content.hero} />
   <Features client:load content={content.features} />
-  <TrustBar client:load />
+  <Itineraries client:load content={content.itineraries} />
+  <TrustBar client:load partners={content.gallery.partners} />
   <Gallery client:load content={content.gallery} />
-  <CtaSection client:load content={content.cta} />
+  <CtaSection client:load content={content.cta} metrics={content.gallery.metrics} />
   <Footer client:load content={content.footer} />
 </Layout>

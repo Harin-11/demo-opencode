@@ -1,13 +1,40 @@
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
+import { motion, useInView, useSpring, useTransform, useMotionValue } from "framer-motion";
 import { IconArrowRight, IconArrowUpRight } from "@tabler/icons-react";
-import type { Content } from "@/data/types";
+import type { Content, Metric } from "@/data/types";
 
 interface CtaSectionProps {
 	content: Content["cta"];
+	metrics: Metric[];
 }
 
-export function CtaSection({ content: cta }: CtaSectionProps) {
+function MetricCounter({ metric, inView }: { metric: Metric; inView: boolean }) {
+	const countValue = useMotionValue(0);
+	const rounded = useTransform(countValue, (latest) => Math.round(latest));
+	const springValue = useSpring(countValue, { stiffness: 50, damping: 30 });
+	const [display, setDisplay] = useState(0);
+
+	useEffect(() => {
+		if (inView) countValue.set(metric.value);
+	}, [inView, metric.value, countValue]);
+
+	useEffect(() => {
+		return rounded.on("change", (latest) => setDisplay(latest));
+	}, [rounded]);
+
+	return (
+		<div className="flex flex-col gap-1">
+			<div className="text-3xl md:text-5xl font-display font-bold text-clay-950 tracking-tighter">
+				{display}{metric.suffix}
+			</div>
+			<div className="text-[10px] uppercase tracking-[0.3em] font-bold text-clay-400">
+				{metric.label}
+			</div>
+		</div>
+	);
+}
+
+export function CtaSection({ content: cta, metrics }: CtaSectionProps) {
 	const ref = useRef<HTMLElement>(null!);
 	const isInView = useInView(ref, { once: true, margin: "-100px" });
 
@@ -15,79 +42,65 @@ export function CtaSection({ content: cta }: CtaSectionProps) {
 		<section
 			ref={ref}
 			id="contacto"
-			className="py-28 md:py-40 bg-clay-50 relative overflow-hidden"
+			className="bg-clay-50 border-t border-clay-200"
 		>
-			{/* Ambient decorative blobs with animation */}
-			<div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-				<motion.div
-					className="absolute top-0 right-0 w-[500px] h-[500px] bg-inka-gold/[0.04] rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"
-					animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.7, 0.5] }}
-					transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-				/>
-				<motion.div
-					className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-inka-purple/[0.03] rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"
-					animate={{ scale: [1, 1.15, 1], opacity: [0.4, 0.6, 0.4] }}
-					transition={{
-						duration: 15,
-						repeat: Infinity,
-						ease: "easeInOut",
-						delay: 3,
-					}}
-				/>
-			</div>
+			<div className="max-w-7xl mx-auto px-6 md:px-12">
+				<div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
+					
+					{/* Left: Metrics */}
+					<div className="lg:col-span-4 grid grid-cols-2 gap-12 order-2 lg:order-1">
+						{metrics.map((m, i) => (
+							<MetricCounter key={i} metric={m} inView={isInView} />
+						))}
+					</div>
 
-			<div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 text-center md:text-left">
-				<div className="max-w-4xl mx-auto md:mx-0">
-					<motion.p
-						className="text-inka-gold text-sm uppercase tracking-[0.2em] font-medium mb-3"
-						initial={{ opacity: 0, y: 12 }}
-						animate={isInView ? { opacity: 1, y: 0 } : {}}
-						transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
-					>
-						Contacto
-					</motion.p>
-
-					<motion.h2
-						className="text-clay-950 font-display font-bold text-5xl md:text-7xl lg:text-8xl leading-[1.05] tracking-tight mb-6"
-						initial={{ opacity: 0, y: 20 }}
-						animate={isInView ? { opacity: 1, y: 0 } : {}}
-						transition={{ duration: 0.7, delay: 0.1, ease: [0.32, 0.72, 0, 1] }}
-					>
-						{cta.heading}
-					</motion.h2>
-
-					<motion.p
-						className="text-clay-700 text-lg md:text-xl max-w-2xl mb-10 leading-relaxed"
-						initial={{ opacity: 0, y: 12 }}
-						animate={isInView ? { opacity: 1, y: 0 } : {}}
-						transition={{ duration: 0.6, delay: 0.2, ease: [0.32, 0.72, 0, 1] }}
-					>
-						{cta.subCopy}
-					</motion.p>
-
-					<motion.div
-						className="flex flex-wrap gap-4 items-center justify-center md:justify-start"
-						initial={{ opacity: 0, y: 12 }}
-						animate={isInView ? { opacity: 1, y: 0 } : {}}
-						transition={{ duration: 0.6, delay: 0.3, ease: [0.32, 0.72, 0, 1] }}
-					>
-						<a
-							href={cta.primaryCta.href}
-							className="group/button inline-flex shrink-0 items-center justify-center rounded-full h-12 px-8 bg-inka-gold text-clay-950 hover:bg-inka-gold-light font-medium text-base whitespace-nowrap transition-all select-none"
+					{/* Right: CTA Content */}
+					<div className="lg:col-span-8 order-1 lg:order-2">
+						<motion.div
+							initial={{ opacity: 0, y: 20 }}
+							animate={isInView ? { opacity: 1, y: 0 } : {}}
+							transition={{ duration: 0.8, ease: [0.32, 0.72, 0, 1] }}
 						>
-							{cta.primaryCta.label}
-							<IconArrowRight className="ml-2 h-4 w-4 shrink-0 transition-transform duration-300 group-hover/button:translate-x-1" />
-						</a>
-						{cta.secondaryCta && (
-							<a
-								href={cta.secondaryCta.href}
-								className="group/button inline-flex shrink-0 items-center justify-center rounded-full h-12 px-8 bg-transparent border border-clay-400 text-clay-800 hover:bg-clay-100 hover:text-clay-950 hover:border-clay-600 font-medium text-base whitespace-nowrap transition-all select-none"
-							>
-								{cta.secondaryCta.label}
-								<IconArrowUpRight className="ml-2 h-4 w-4 shrink-0 transition-transform duration-300 group-hover/button:translate-x-0.5 group-hover/button:-translate-y-0.5" />
-							</a>
-						)}
-					</motion.div>
+							<div className="flex items-center gap-4 mb-8">
+								<span className="w-10 h-[1px] bg-inka-gold/40" />
+								<p className="text-inka-gold text-[10px] uppercase tracking-[0.4em] font-bold">
+									Próximos pasos
+								</p>
+							</div>
+
+							<h2 className="text-clay-950 font-display font-bold text-5xl md:text-7xl lg:text-8xl leading-[1] tracking-tighter mb-10">
+								{cta.heading}
+							</h2>
+
+							<p className="text-clay-600 text-lg md:text-xl max-w-2xl mb-12 md:mb-16 leading-relaxed font-light">
+								{cta.subCopy}
+							</p>
+
+							<div className="flex flex-wrap gap-6 items-center">
+								<div className="p-1 rounded-full bg-inka-gold/20 border border-inka-gold/30">
+									<a
+										href={cta.primaryCta.href}
+										className="group/button relative inline-flex items-center justify-center rounded-full h-14 px-10 bg-inka-gold text-clay-950 font-bold text-base whitespace-nowrap transition-all shadow-xl active:scale-95 overflow-hidden"
+									>
+										{cta.primaryCta.label}
+										<div className="ml-3 w-8 h-8 rounded-full bg-clay-950/10 flex items-center justify-center transition-transform duration-500 group-hover/button:translate-x-1">
+											<IconArrowRight size={18} />
+										</div>
+									</a>
+								</div>
+
+								{cta.secondaryCta && (
+									<a
+										href={cta.secondaryCta.href}
+										className="group/button inline-flex items-center justify-center rounded-full h-14 px-10 bg-white/5 border border-clay-300 text-clay-700 hover:bg-clay-100 hover:text-clay-950 transition-all active:scale-95"
+									>
+										{cta.secondaryCta.label}
+										<IconArrowUpRight className="ml-2 h-5 w-5 transition-transform duration-500 group-hover/button:translate-x-1 group-hover/button:-translate-y-1" />
+									</a>
+								)}
+							</div>
+						</motion.div>
+					</div>
 				</div>
 			</div>
 		</section>
