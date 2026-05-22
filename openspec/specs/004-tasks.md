@@ -118,36 +118,26 @@ These tasks have zero dependencies on other tasks and can be executed in paralle
 
 ---
 
-### Task A3: Create `src/scripts/anim-utils.js`
+### Task A3: (Superseded) Animation Utility Module
 
-**Files:** → `src/scripts/anim-utils.js`
+No separate animation utility is needed. All animations are handled inline via **Framer Motion** within each React component.
 
-**Description:** Shared GSAP utilities. Registers ScrollTrigger plugin once, sets global defaults, exports helpers used by all animation scripts.
+**Patterns used across components:**
 
-**Exports:**
-
-- `REDUCED_MOTION` — boolean from `prefers-reduced-motion: reduce` media query
-- `fadeUp(el, options)` — reusable fade-up entrance with ScrollTrigger support, respects reduced motion (halves duration, removes y-offset)
-- `cleanupTriggers(...triggers)` — kills ScrollTrigger instances for cleanup
-
-**Global setup:**
-
-- `gsap.registerPlugin(ScrollTrigger)`
-- `ScrollTrigger.defaults({ toggleActions: 'play none none reverse', invalidateOnRefresh: true })`
-- `ScrollTrigger.normalizeScroll(true)` — iOS Safari smooth scroll fix
-- `ScrollTrigger.config({ ignoreMobileResize: true })` — prevent iOS toolbar resize recalc
-
-**Important:** Use ESM `import` syntax. All animation scripts import from this module.
+- `motion.div` with `initial`/`animate`/`exit` for entrance and exit animations
+- `useInView` with `once: true` for one-shot scroll-triggered reveals
+- `useScroll` + `useTransform` for scrubbed parallax and scale effects
+- `AnimatePresence` for modal, menu, and testimonial transitions
+- `whileInView` for declarative scroll-triggered animations
 
 **Acceptance criteria:**
 
-- ScrollTrigger registered once, globally
-- `fadeUp` respects `prefers-reduced-motion`
-- No layout-triggering properties used (transform/opacity only)
-- File is importable by other scripts in `src/scripts/`
+- No `gsap` or `ScrollTrigger` references needed in any file
+- All animations use only `transform` and `opacity` (GPU-safe)
+- Component animations respect `prefers-reduced-motion`
 
-**Estimated lines:** 45
-**Dependencies:** None (gsap already in package.json)
+**Estimated lines:** 0 (no new file needed)
+**Dependencies:** None (framer-motion already in package.json)
 
 ---
 

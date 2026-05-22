@@ -167,7 +167,7 @@ export function Hero({ content: hero }: HeroProps) {
 					</motion.div>
 
 					<motion.h1
-						className="text-white font-display font-bold leading-[0.95] tracking-tighter text-5xl md:text-7xl lg:text-8xl mb-10 max-w-6xl drop-shadow-[0_4px_32px_rgba(0,0,0,0.6)]"
+						className="text-white font-display font-bold leading-[0.95] tracking-tighter text-5xl md:text-6xl lg:text-7xl mb-6 md:mb-8 max-w-6xl drop-shadow-[0_4px_32px_rgba(0,0,0,0.6)]"
 						initial={{ opacity: 0, y: 30 }}
 						animate={isInView ? { opacity: 1, y: 0 } : {}}
 						transition={{
@@ -180,7 +180,7 @@ export function Hero({ content: hero }: HeroProps) {
 					</motion.h1>
 
 					<motion.p
-						className="text-white/80 text-xl md:text-2xl font-light max-w-2xl mb-12 md:mb-16 leading-relaxed"
+						className="text-white/80 text-lg md:text-xl font-light max-w-2xl mb-8 md:mb-10 leading-relaxed"
 						initial={{ opacity: 0, y: 20 }}
 						animate={isInView ? { opacity: 1, y: 0 } : {}}
 						transition={{ duration: 0.8, delay: 0.9, ease: [0.32, 0.72, 0, 1] }}
@@ -189,7 +189,7 @@ export function Hero({ content: hero }: HeroProps) {
 					</motion.p>
 
 					<motion.div
-						className="flex flex-wrap gap-6 items-center"
+						className="flex flex-wrap gap-4 md:gap-6 items-center"
 						initial={{ opacity: 0, y: 20 }}
 						animate={isInView ? { opacity: 1, y: 0 } : {}}
 						transition={{
@@ -202,21 +202,21 @@ export function Hero({ content: hero }: HeroProps) {
 						<div className="p-1 rounded-full bg-inka-gold/20 border border-inka-gold/30">
 							<a
 								href={hero.primaryCta.href}
-								className="group/button relative inline-flex items-center justify-center rounded-full h-14 px-10 bg-inka-gold text-clay-950 font-bold text-base whitespace-nowrap transition-all shadow-xl hover:shadow-inka-gold/20 active:scale-95 overflow-hidden"
+								className="group/button relative inline-flex items-center justify-center rounded-full h-12 md:h-14 px-8 md:px-10 bg-inka-gold text-clay-950 font-bold text-sm md:text-base whitespace-nowrap transition-all shadow-xl hover:shadow-inka-gold/20 active:scale-95 overflow-hidden"
 							>
 								{hero.primaryCta.label}
-								<div className="ml-3 w-8 h-8 rounded-full bg-clay-950/10 flex items-center justify-center transition-transform duration-500 group-hover/button:translate-x-1">
-									<IconArrowRight size={18} />
+								<div className="ml-3 w-7 h-7 md:w-8 md:h-8 rounded-full bg-clay-950/10 flex items-center justify-center transition-transform duration-500 group-hover/button:translate-x-1">
+									<IconArrowRight size={16} className="md:size-[18px]" />
 								</div>
 							</a>
 						</div>
 
 						<a
 							href={hero.secondaryCta.href}
-							className="group/button inline-flex items-center justify-center rounded-full h-14 px-10 bg-white/5 backdrop-blur-md border border-white/20 text-white hover:bg-white/10 hover:border-white/40 font-semibold text-base whitespace-nowrap transition-all active:scale-95"
+							className="group/button inline-flex items-center justify-center rounded-full h-12 md:h-14 px-8 md:px-10 bg-white/5 backdrop-blur-md border border-white/20 text-white hover:bg-white/10 hover:border-white/40 font-semibold text-sm md:text-base whitespace-nowrap transition-all active:scale-95"
 						>
 							{hero.secondaryCta.label}
-							<IconArrowUpRight className="ml-2 h-5 w-5 transition-transform duration-500 group-hover/button:translate-x-1 group-hover/button:-translate-y-1" />
+							<IconArrowUpRight className="ml-2 h-4 w-4 md:h-5 md:w-5 transition-transform duration-500 group-hover/button:translate-x-1 group-hover/button:-translate-y-1" />
 						</a>
 					</motion.div>
 				</div>

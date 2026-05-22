@@ -6,7 +6,7 @@
 
 - **Density:** 4 (Art Gallery Airy — spacious, editorial)
 - **Variance:** 7 (Offset Asymmetric — broken grids, dynamic layouts)
-- **Motion:** 8 (Cinematic Choreography — GSAP ScrollTrigger, pinning, scrubbing)
+- **Motion:** 8 (Cinematic Choreography — Framer Motion, `AnimatePresence`, scroll-driven variants)
 
 ## Color Palette
 
@@ -64,8 +64,8 @@
 | Element           | Technique                                              | Timing     |
 | ----------------- | ------------------------------------------------------ | ---------- |
 | Page load entries | Fade-up + blur: `translate-y-16 blur-md opacity-0 → 0` | 800ms+     |
-| Scroll reveals    | IntersectionObserver or GSAP ScrollTrigger             | Scrubbed   |
-| Card stacking     | GSAP pin + stack from bottom                           | Scrolled   |
+| Scroll reveals    | Framer Motion `useInView` + `whileInView`              | Scrubbed   |
+| Card stacking     | Framer Motion `AnimatePresence` + `layout` animations  | Scrolled   |
 | Text reveals      | Word opacity scrub 0.1 → 1.0                           | Sequential |
 | Image scale       | `scale: 0.8 → 1.0` on enter, darken on exit            | Scrolled   |
 | Hover physics     | `group-hover:scale-105`, icon diagonal translate       | 700ms ease |
@@ -88,14 +88,14 @@
 
 1. **Attention:** Hero (cinematic, cultural imagery)
 2. **Interest:** Bento features grid (experiences, treks)
-3. **Desire:** GSAP Scroll section (gallery, storytelling, testimonials)
+3. **Desire:** Framer Motion scroll section (gallery, storytelling, testimonials)
 4. **Action:** Massive CTA + footer
 
 ## Banned Patterns
 
 - ❌ Meta-labels ("SECTION 01", "ABOUT US")
 - ❌ Inter, Roboto, Arial fonts
-- ❌ Lucide, FontAwesome, Material icons (use Phosphor Light or Remix Line)
+- ❌ FontAwesome, Material icons (use Tabler, Lucide, Phosphor Light, or Remix Line)
 - ❌ Generic 1px gray borders
 - ❌ Harsh drop shadows (`shadow-md`, `rgba(0,0,0,0.3)`)
 - ❌ 3-column Bootstrap-style grids without whitespace

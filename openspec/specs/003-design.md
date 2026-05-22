@@ -220,144 +220,28 @@ export const FOOTER = {
 All animation logic lives in `src/scripts/` as standalone ES modules. Each file exports a single setup function that receives an HTMLElement or selector string.
 
 ```
-src/scripts/
-├── anim-hero.js         → Hero entrance timeline + background scrub
-├── anim-features.js     → Bento card stagger reveal + hover
-├── anim-gallery.js      → Parallax, testimonial pin-stack, word reveal
-├── anim-metrics.js      → Count-up animation
-├── anim-cta.js          → CTA section entrance + magnetic button
-├── anim-nav.js          → Nav entrance + hamburger morph + active section
-└── anim-utils.js        → Shared helpers: prefersReducedMotion, cleanup, ScrollTrigger defaults
+No separate animation scripts are needed. Framer Motion handles all animations inline
+within React components using motion components, AnimatePresence, useInView,
+useScroll, and useTransform.
 ```
 
-### 2.2 Shared Utility Module (`anim-utils.js`)
+### 2.2 Animation Approach
 
-```javascript
-// src/scripts/anim-utils.js
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+All animations are handled inline using Framer Motion within React components. No separate animation script files are needed.
 
-gsap.registerPlugin(ScrollTrigger);
+**Key Framer Motion patterns used:**
 
-export const REDUCED_MOTION = typeof window !== 'undefined'
-  && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+- `motion.div` with `initial`/`animate`/`exit` — for mount and scroll-triggered reveals
+- `useInView` — detects when elements enter the viewport for one-shot animations
+- `useScroll` + `useTransform` — for scrubbed parallax/scale effects tied to scroll position
+- `AnimatePresence` — for lightbox/modal, mobile menu, and testimonial transitions
+- `motion.img` with `initial={{ scale: ... }}` + `animate={{ scale: ... }}` — for image entrance effects
+- `whileInView` — declarative scroll-triggered animations without JavaScript
+- `layoutId` — for shared layout animations (active nav indicator)
 
-// Shared ScrollTrigger defaults — applied once
-ScrollTrigger.defaults({
-  toggleActions: 'play none none reverse',
-  invalidateOnRefresh: true,
-});
-ScrollTrigger.normalizeScroll(true);
+**GPU safety:** All animations use only `transform` and `opacity` per DESIGN.md requirements.
 
-/**
- * Creates a fade-up animation for entrance reveals.
- * Respects prefers-reduced-motion: reduces duration by 50%, removes y-offset.
- */
-export function fadeUp(el, options = {}) {
-  const { y = 48, duration = 0.7, delay = 0, ease = 'power3.out', scrollTrigger } = options;
-  const dur = REDUCED_MOTION ? duration * 0.5 : duration;
-  const yVal = REDUCED_MOTION ? 0 : y;
-
-  return gsap.fromTo(el,
-    { y: yVal, opacity: 0 },
-    { y: 0, opacity: 1, duration: dur, delay, ease, scrollTrigger }
-  );
-}
-
-/**
- * Cleanup function for ScrollTrigger — call in component's onDisconnect or before re-init.
- */
-export function cleanupTriggers(...triggers) {
-  triggers.forEach(t => t && t.kill());
-}
-```
-
-### 2.3 Hero Animation (`anim-hero.js`)
-
-**Entry timeline** — runs once on component mount:
-
-```javascript
-import { gsap } from 'gsap';
-import { REDUCED_MOTION } from './anim-utils';
-
-export function initHeroAnimations(container) {
-  const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-
-  // Step 1: Decorative accent (opacity fade + scale)
-  tl.fromTo('[data-hero-accent]',
-    { opacity: 0, scale: 0.8 },
-    { opacity: 1, scale: 1, duration: 0.6, delay: 0.1 }
-  );
-
-  // Step 2: H1 heading (fade-up + blur)
-  tl.fromTo('[data-hero-heading]',
-    { y: 64, opacity: 0, filter: 'blur(8px)' },
-    { y: 0, opacity: 1, filter: 'blur(0)', duration: 0.8 },
-    0.2
-  );
-
-  // Step 3: Subheading (fade-up, no blur)
-  tl.fromTo('[data-hero-subheading]',
-    { y: 32, opacity: 0 },
-    { y: 0, opacity: 1, duration: 0.7 },
-    0.5
-  );
-
-  // Step 4: Primary CTA
-  tl.fromTo('[data-hero-cta-primary]',
-    { y: 24, opacity: 0 },
-    { y: 0, opacity: 1, duration: 0.6 },
-    0.75
-  );
-
-  // Step 5: Secondary CTA
-  tl.fromTo('[data-hero-cta-secondary]',
-    { y: 24, opacity: 0 },
-    { y: 0, opacity: 1, duration: 0.6 },
-    0.9
-  );
-
-  // If reduced motion, skip the blur on H1
-  if (REDUCED_MOTION) {
-    gsap.set('[data-hero-heading]', { filter: 'none' });
-  }
-}
-
-export function initHeroScrub(container) {
-  if (REDUCED_MOTION) return;
-
-  // Background scale scrub on scroll exit
-  const bg = container.querySelector('[data-hero-bg]');
-  if (bg) {
-    gsap.to(bg, {
-      scale: 1.05,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: container,
-        start: 'top top',
-        end: 'bottom top',
-        scrub: 1,
-      },
-    });
-  }
-
-  // Content fade-out on last 30% of hero exit
-  const content = container.querySelector('[data-hero-content]');
-  if (content) {
-    gsap.to(content, {
-      opacity: 0.6,
-      y: -40,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: container,
-        start: 'top -70vh',
-        end: 'bottom top',
-        scrub: 1,
-      },
-    });
-  }
-}
-```
+**Reduced motion:** Framer Motion respects `prefers-reduced-motion` via reduced duration configs and skip-where-appropriate logic in each component.
 
 ### 2.4 Features Animation (`anim-features.js`)
 

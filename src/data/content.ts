@@ -95,41 +95,62 @@ export const content: Content = {
 
 	itineraries: {
 		title: "Itinerarios de autor",
-		subtitle: "Rutas diseñadas para descubrir el alma de Arequipa y sus alrededores",
+		subtitle:
+			"Rutas diseñadas para descubrir el alma de Arequipa y sus alrededores",
 		items: [
 			{
 				id: "colca-clasico",
 				title: "Esencia del Colca",
 				duration: "2 Días / 1 Noche",
-				description: "Un viaje profundo al corazón del cañón más profundo del mundo. Avistamiento de cóndores, baños termales y pueblos tradicionales.",
+				description:
+					"Un viaje profundo al corazón del cañón más profundo del mundo. Avistamiento de cóndores, baños termales y pueblos tradicionales.",
 				image: "https://picsum.photos/seed/colca-condor-classic/800/1000",
-				highlights: ["Cruz del Cóndor", "Baños Termales La Calera", "Caminata por Yanque"]
+				highlights: [
+					"Cruz del Cóndor",
+					"Baños Termales La Calera",
+					"Caminata por Yanque",
+				],
 			},
 			{
 				id: "sillar-y-tradicion",
 				title: "Ruta del Sillar",
 				duration: "Medio Día",
-				description: "Descubre el origen de la 'Ciudad Blanca'. Visita las canteras de piedra volcánica y aprende sobre la arquitectura colonial.",
+				description:
+					"Descubre el origen de la 'Ciudad Blanca'. Visita las canteras de piedra volcánica y aprende sobre la arquitectura colonial.",
 				image: "https://picsum.photos/seed/sillar-quarry/800/1000",
-				highlights: ["Canteras de Añashuayco", "Quebrada de Culebrillas", "Petroglifos ancestrales"]
+				highlights: [
+					"Canteras de Añashuayco",
+					"Quebrada de Culebrillas",
+					"Petroglifos ancestrales",
+				],
 			},
 			{
 				id: "misti-trek",
 				title: "Ascenso al Misti",
 				duration: "2 Días / 1 Noche",
-				description: "El desafío definitivo para los amantes de la montaña. Conquista la cima del guardián de la ciudad a 5,822 m.s.n.m.",
+				description:
+					"El desafío definitivo para los amantes de la montaña. Conquista la cima del guardián de la ciudad a 5,822 m.s.n.m.",
 				image: "https://picsum.photos/seed/misti-volcano-climb/800/1000",
-				highlights: ["Campamento base Nido de Águilas", "Vista panorámica de Arequipa", "Cima del volcán"]
+				highlights: [
+					"Campamento base Nido de Águilas",
+					"Vista panorámica de Arequipa",
+					"Cima del volcán",
+				],
 			},
 			{
 				id: "arequipa-gastronomica",
 				title: "Sabor y Cultura",
 				duration: "Full Day",
-				description: "Un recorrido por los mercados locales y las picanterías tradicionales para descubrir por qué Arequipa es la capital culinaria.",
+				description:
+					"Un recorrido por los mercados locales y las picanterías tradicionales para descubrir por qué Arequipa es la capital culinaria.",
 				image: "https://picsum.photos/seed/peruvian-food-culture/800/1000",
-				highlights: ["Mercado de San Camilo", "Picanterías tradicionales", "Monasterio de Santa Catalina"]
-			}
-		]
+				highlights: [
+					"Mercado de San Camilo",
+					"Picanterías tradicionales",
+					"Monasterio de Santa Catalina",
+				],
+			},
+		],
 	},
 
 	gallery: {
@@ -167,21 +188,21 @@ export const content: Content = {
 					"Una experiencia que transforma la forma de ver la montaña. Cada sendero tiene una historia y aquí saben contarla.",
 				author: "Valentina Rivera",
 				location: "Bogotá, Colombia",
-				avatar: "https://picsum.photos/seed/portrait-1/800/1000"
+				avatar: "https://picsum.photos/seed/portrait-1/800/1000",
 			},
 			{
 				quote:
 					"Hicimos el trekking por el Cañón del Colca. Todo impecable: los guías, la logística y la conexión con la gente local.",
 				author: "Julian & Sarah Miller",
 				location: "Portland, USA",
-				avatar: "https://picsum.photos/seed/portrait-2/800/1000"
+				avatar: "https://picsum.photos/seed/portrait-2/800/1000",
 			},
 			{
 				quote:
 					"La ruta del sillar y el Monasterio fueron reveladores. Es un viaje a las manos que construyeron esta ciudad blanca.",
 				author: "Marcus Thorne",
 				location: "Londres, UK",
-				avatar: "https://picsum.photos/seed/portrait-3/800/1000"
+				avatar: "https://picsum.photos/seed/portrait-3/800/1000",
 			},
 		],
 		metrics: [
@@ -199,7 +220,7 @@ export const content: Content = {
 			"BBC Travel",
 			"Rough Guides",
 			"Adventure Travel",
-		]
+		],
 	},
 
 	cta: {
@@ -237,6 +258,6 @@ export const content: Content = {
 			email: "info@rutasdelsol.com",
 			phone: "+51 9XX XXX XXX",
 		},
-		copyright: "2025 Rutas del Sol. Todos los derechos reservados.",
+		copyright: "2026 Rutas del Sol. Todos los derechos reservados.",
 	},
 };

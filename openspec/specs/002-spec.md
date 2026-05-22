@@ -18,7 +18,7 @@
 | **Title** | Rutas del Sol — Premium Landing Page (Cultural - Artesanal Direction) |
 | **Type** | New artifact (greenfield project) |
 | **Domain** | landing-page |
-| **Framework** | Astro 6.3.5 + Tailwind v4 + GSAP 3.15.0 (ScrollTrigger) |
+| **Framework** | Astro 6.3.5 + Tailwind v4 + Framer Motion 12 |
 | **Language** | Spanish (Argentine dialect) |
 | **Design System** | Cultural - Artesanal (see DESIGN.md) |
 | **Review Budget** | 400 changed lines |
@@ -38,14 +38,14 @@
 | F-03 | The floating glass navigation pill MUST be detached from edges, centered horizontally, with backdrop-blur effect, and MUST morph into a hamburger-to-X menu below 768px. | P0 | Responsive viewport test |
 | F-04 | The primary CTA button MUST use a magnetic button-in-button effect with nested circle wrapper, scale hover, and diagonal icon translation. | P0 | Hover interaction test |
 | F-05 | The bento features grid MUST use `grid-flow-dense` with asymmetric card sizing (mix of image-dominant, text-dominant, and decorative cards) on desktop, collapsing to single-column below 768px. | P0 | Responsive visual test |
-| F-06 | GSAP-powered scroll-triggered animations MUST activate on section entry: fade-up reveals, text word-opacity scrub, image scale transitions, and card stacking. | P0 | Scroll interaction test |
-| F-07 | A testimonials section MUST display guest quotes in a stacking card layout using GSAP pin + stack-from-bottom. | P1 | Scroll behavior test |
-| F-08 | The metrics row MUST display 3-4 data points with GSAP count-up animation triggered on scroll entry. | P1 | Scroll behavior test |
+| F-06 | Framer Motion scroll-triggered animations MUST activate on section entry: fade-up reveals, text word-opacity scrub, image scale transitions, and card stacking. | P0 | Scroll interaction test |
+| F-07 | A testimonials section MUST display guest quotes in a stacking card layout using Framer Motion AnimatePresence and layout animations. | P1 | Scroll behavior test |
+| F-08 | The metrics row MUST display 3-4 data points with animated count-up triggered on scroll entry using Framer Motion useSpring + useMotionValue. | P1 | Scroll behavior test |
 | F-09 | The gallery/storytelling section MUST include a parallax scrolling effect on at least 3 landscape images with text overlays and dark gradient. | P0 | Scroll interaction test |
 | F-10 | The page MUST include SEO metadata (title, description, Open Graph tags) in Spanish. | P1 | HTML head inspection |
 | F-11 | The page MUST include a favicon (stylized sun/mountain SVG mark) and browser tab branding. | P1 | Browser tab inspection |
-| F-12 | The page MUST use GPU-accelerated properties (`transform`, `opacity`) for all animations; MUST NOT animate `top`, `left`, `width`, or `height`. | P0 | Code review, GSAP audit |
-| F-13 | All external dependencies MUST be limited to Astro, Tailwind CSS, GSAP, and Phosphor Light icons (or Remix Line). | P0 | `package.json` audit |
+| F-12 | The page MUST use GPU-accelerated properties (`transform`, `opacity`) for all animations; MUST NOT animate `top`, `left`, `width`, or `height`. | P0 | Code review |
+| F-13 | All external dependencies MUST be limited to Astro, Tailwind CSS, Framer Motion, and Tabler/Lucide icons. | P0 | `package.json` audit |
 | F-14 | The `blur` CSS property MUST only appear on fixed/sticky elements (nav pill, overlays), never on scroll-triggered animations. | P0 | Code review |
 | F-15 | Z-index values MUST follow the systemic layer discipline: nav=50, modal=60, overlay=70, tooltip=80. | P0 | Code review |
 | F-16 | The page MUST pass `pnpm run build` with zero errors before delivery. | P0 | CI build check |
@@ -61,7 +61,7 @@
 | NF-05 | Images below the fold | `loading="lazy"` attribute | P1 |
 | NF-06 | Hero background image | `fetchpriority="high"` for early LCP | P1 |
 | NF-07 | Body text line limit | Max 65 characters per line | P0 |
-| NF-08 | Animation motion safety | Respect `prefers-reduced-motion` — disable GSAP ScrollTrigger scrubbing when reduced motion is preferred | P1 |
+| NF-08 | Animation motion safety | Respect `prefers-reduced-motion` — reduce durations and disable y-offset when reduced motion is preferred | P1 |
 | NF-09 | Hover effects on touch devices | MUST feature-detect with `@media (hover: hover)`; non-hover devices MUST NOT break layout | P1 |
 
 ### 2.3 Constraints
@@ -76,7 +76,7 @@
 | C-06 | Banned icons: Lucide, FontAwesome, Material icons MUST NOT appear. Use Phosphor Light or Remix Line. | DESIGN.md |
 | C-07 | Banned patterns: No meta-labels ("SECTION 01", "ABOUT US"), no scroll chevrons, no generic 1px gray borders, no harsh drop shadows, no edge-to-edge sticky navbars. | DESIGN.md |
 | C-08 | Hero MUST use `min-h-[100dvh]` — never `h-screen`. | DESIGN.md — Layout Principles |
-| C-09 | Transition functions MUST NOT use `linear` or `ease-in-out`. Use custom cubic-bezier or GSAP defaults. | DESIGN.md — Motion Philosophy |
+| C-09 | Transition functions MUST NOT use `linear` or `ease-in-out`. Use custom cubic-bezier or Framer Motion defaults. | DESIGN.md — Motion Philosophy |
 | C-10 | Layout MUST use CSS Grid over Flexbox math; no `calc()` percentage hacks. | DESIGN.md — Layout Principles |
 | C-11 | The double-bezel card system MUST be used for all cards (outer shell with `p-1.5`, `rounded-[2rem]`; inner core with distinct bg, `rounded-[calc(2rem-0.375rem)]`). | DESIGN.md — Component Architecture |
 | C-12 | All Astro interactive components MUST use `client:visible` as the default client directive, NOT `client:load`, except the Nav component which MUST use `client:load`. | Proposal §7.2 |
@@ -102,7 +102,7 @@ Scenario: First-time visitor lands on the page and scrolls through all four AIDA
 - **AND** the bento features grid cards stagger-fade-up into view one by one
 - **WHEN** the visitor reaches the gallery section
 - **THEN** images scale from 0.8 to 1.0 on entry with dark gradient overlays
-- **AND** testimonial cards stack from the bottom using GSAP pin
+- **AND** testimonial cards transition using Framer Motion AnimatePresence
 - **AND** metric numbers count up from 0 to their final values
 - **WHEN** the visitor reaches the CTA section
 - **THEN** the massive heading and button fade up from below
@@ -251,14 +251,13 @@ Placeholder structure for each testimonial:
 
 ## 5. Animation Specification
 
-### 5.1 GSAP Configuration
+### 5.1 Framer Motion Configuration
 
-- **Package:** `gsap` 3.15.0 with bundled ScrollTrigger plugin
+- **Package:** `framer-motion` 12
 - **GPU safety:** All animations MUST use only `transform` (translate, scale, rotate) and `opacity` — NEVER `top`, `left`, `width`, `height`, `margin`, `padding`
 - **Blur constraint:** `filter: blur()` only on fixed/sticky elements (nav pill, overlays)
-- **Reduced motion:** `gsap.matchMedia()` or `prefers-reduced-motion: reduce` media query MUST disable scrub-based animations and reduce durations by 50% for entrance animations
+- **Reduced motion:** Framer Motion animations respect `prefers-reduced-motion` — reduce durations by 50% and remove y-offsets for entrance animations when reduced motion is preferred
 - **Mobile:** On touch devices (no hover), skip hover-scale animations; keep entrance animations
-- **ScrollTrigger mobile:** Use `ScrollTrigger.normalizeScroll(true)` for smooth iOS Safari behavior
 
 ### 5.2 Hero Entrance Timeline
 
@@ -408,8 +407,8 @@ interface HeroProps {
 - Background: `<img>` with `fetchpriority="high"`, subtle dark overlay (`bg-gradient-to-b from-clay-950/40 via-transparent to-clay-950/60`)
 - Text left-aligned or centered with offset decorative element (variance 7)
 - `max-w-5xl+` ultra-wide container for heading
-- GSAP entrance stagger on mount (see §5.2)
-- Background scale scrub on scroll exit
+- Framer Motion entrance stagger on mount (see §5.2)
+- Background scale scrub on scroll exit via `useScroll` + `useTransform`
 
 ### 6.3 Features.astro (Bento Grid)
 
@@ -444,7 +443,7 @@ interface FeaturesProps {
 **Behavior:**
 - CSS Grid with `grid-flow-dense`, auto-fill columns on desktop (typically 3-4 cols depending on content)
 - Each card wrapped in double-bezel system (outer shell `p-1.5 rounded-[2rem]`, inner core `rounded-[calc(2rem-0.375rem)]`)
-- GSAP scroll-triggered stagger reveal (see §5.3)
+- Framer Motion scroll-triggered stagger reveal (see §5.3)
 - Hover: `scale(1.05)` with custom easing on the outer shell
 - Collapses to single-column `w-full` below 768px
 
@@ -484,9 +483,9 @@ interface GalleryProps {
 - Alternating full-width image sections with `py-24` to `py-40` spacing
 - Each image: `object-cover w-full h-[60vh]` to `h-[80vh]`, with dark gradient overlay (`bg-gradient-to-t from-clay-950/70 via-clay-950/20 to-transparent`)
 - Caption overlaid at specified position
-- GSAP parallax: image scale 0.8→1.0 on scroll entry, darken overlay on exit
+- Framer Motion parallax: image scale 0.8→1.0 on scroll entry via `useScroll` + `useTransform`
 - Text word-reveal: sequential opacity scrub per word
-- Testimonials: stacking card layout using GSAP pin + stack from bottom (see §5.4)
+- Testimonials: animated card layout using Framer Motion AnimatePresence with popLayout mode (see §5.4)
 - Metrics: horizontal row, count-up animation (see §5.4)
 
 ### 6.5 CtaSection.astro
@@ -513,7 +512,7 @@ interface CtaSectionProps {
 - Full-width section with generous padding (`py-32` to `py-40`)
 - Centered or asymmetric layout
 - Heading: `text-6xl` to `text-8xl` using Cabinet Grotesk 800
-- GSAP fade-up entry stagger (see §5.5)
+- Framer Motion fade-up entry stagger (see §5.5)
 - Primary CTA uses MagneticButton component
 
 ### 6.6 Footer.astro
@@ -589,7 +588,7 @@ interface TestimonialCardProps {
 - Double-bezel card (same system as bento cards)
 - Quote: large opening quotation mark decorative element (Inka Gold)
 - Author attribution below quote with optional avatar
-- Used inside the GSAP pin-stack system in Gallery.astro
+- Used inside the testimonial system in Gallery.astro
 
 ---
 
@@ -666,7 +665,7 @@ interface TestimonialCardProps {
 |---|---|
 | Magnetic button hover | Skipped — `@media (hover: hover)` blocks hover transforms |
 | Card hover scale | Skipped — no hover state on touch |
-| GSAP ScrollTrigger | `ScrollTrigger.normalizeScroll(true)` for iOS Safari inertia |
+| Framer Motion iOS | Framer Motion handles iOS Safari smoothly; minimal touch adaptations needed |
 | Nav hamburger | Tap target minimum 44x44px |
 | All buttons | Minimum touch target 44px height |
 
@@ -826,11 +825,11 @@ interface TestimonialCardProps {
 
 | ID | Criterion | Method | Pass/Fail |
 |---|---|---|---|
-| AC-19 | GSAP animations trigger on page load for hero elements | Visual + console inspection | |
+| AC-19 | Framer Motion entrance animations trigger on page load for hero elements | Visual + console inspection | |
 | AC-20 | Scroll-triggered animations activate when sections scroll into view | Scroll test | |
 | AC-21 | Magnetic button-in-button effect works on hover (desktop) | Hover interaction test | |
-| AC-22 | All animations use only `transform` and `opacity` — no layout-triggering properties | GSAP code review | |
-| AC-23 | Testimonial cards stack using GSAP pin | Scroll interaction test | |
+| AC-22 | All animations use only `transform` and `opacity` — no layout-triggering properties | Code review | |
+| AC-23 | Testimonial cards transition using Framer Motion AnimatePresence | Scroll interaction test | |
 | AC-24 | Metrics count up from 0 to target values on scroll entry | Scroll interaction test | |
 | AC-25 | `prefers-reduced-motion` disables scrub animations and reduces entrance durations | Browser accessibility test | |
 | AC-26 | Hover effects are disabled on touch devices via `@media (hover: hover)` | Touch device test | |
@@ -875,7 +874,7 @@ interface TestimonialCardProps {
 |---|---|---|---|
 | **Flat file naming conflict** | The project uses flat `001-proposal.md` pattern; canonical OpenSpec convention expects `changes/001-landing-page/specs/landing-page/spec.md`. Archive phase must handle this shape. | Medium | Flagged here for archive/merge phase. The spec is written to `openspec/specs/002-spec.md` matching established pattern but will need proper routing at archive time. |
 | **No client copy/images provided** | Proposal content uses placeholders; client may reject tone or accuracy | Medium | All client-provided content marked with `[CLIENT: ...]` placeholders for easy replacement |
-| **Lighthouse >= 90 on both Performance and Accessiblity** | GSAP + ScrollTrigger + multiple client:visible components may impact initial JS payload | Medium | Use `client:visible` (not `client:load`) aggressively; lazy-load gallery/testimonial JS only when needed |
+| **Lighthouse >= 90 on both Performance and Accessibility** | Framer Motion + multiple interactive components may impact initial JS payload | Medium | Use `client:load` for hero/nav, use `useInView` for scroll-triggered effects within components |
 | **400-line review budget** | Component structure across 8 Astro components + 4 animation scripts may exceed budget | Medium | Extract shared animation patterns; keep each component lean; use Tailwind utility classes aggressively to reduce CSS |
 | **Tailwind v4 breaking changes** | `@theme` directive syntax or utility class names may differ from v3 | Low | Design tokens and utility classes are already v4-compatible in the DESIGN.md baseline |
 | **ScrollTrigger on iOS Safari** | Scrubbed animations may jank on mobile Safari without normalization | Medium | `ScrollTrigger.normalizeScroll(true)` applied globally; test on real iOS device before delivery |

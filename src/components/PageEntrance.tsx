@@ -13,7 +13,7 @@ export function PageEntrance() {
 		<AnimatePresence>
 			{show && (
 				<motion.div
-					className="fixed inset-0 z-[100] flex items-center justify-center bg-clay-950"
+					className="fixed inset-0 z-[100] flex items-center justify-center bg-clay-950 pointer-events-none"
 					initial={{ opacity: 1 }}
 					exit={{
 						opacity: 0,

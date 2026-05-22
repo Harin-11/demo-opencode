@@ -31,6 +31,28 @@ const { title = 'Rutas del Sol — Turismo Receptivo', description = 'Descubre l
     <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
     <link rel="preload" as="style" href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&f[]=cabinet-grotesk@400,500,700,800&display=swap" />
     <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&f[]=cabinet-grotesk@400,500,700,800&display=swap" media="print" onload="this.media='all'" />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "TravelAgency",
+      "name": "Rutas del Sol",
+      "description": "Descubre la historia y paisajes de Arequipa con Rutas del Sol. Trekking guiados al Cañón del Colca, itinerarios por la Ciudad Blanca y experiencias culturales vivenciales.",
+      "url": "https://rutasdelsol.com",
+      "telephone": "+51 9XX XXX XXX",
+      "email": "info@rutasdelsol.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Arequipa",
+        "addressCountry": "PE"
+      },
+      "areaServed": "PE",
+      "image": "/favicon.svg",
+      "sameAs": [
+        "https://instagram.com/rutasdelsol",
+        "https://wa.me/519XXXXXXXX"
+      ]
+    })} />
   </head>
   <body>
     <main class="overflow-x-hidden w-full max-w-full">

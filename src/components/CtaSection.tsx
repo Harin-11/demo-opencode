@@ -1,5 +1,11 @@
 import { useRef, useState, useEffect } from "react";
-import { motion, useInView, useSpring, useTransform, useMotionValue } from "framer-motion";
+import {
+	motion,
+	useInView,
+	useSpring,
+	useTransform,
+	useMotionValue,
+} from "framer-motion";
 import { IconArrowRight, IconArrowUpRight } from "@tabler/icons-react";
 import type { Content, Metric } from "@/data/types";
 
@@ -8,7 +14,13 @@ interface CtaSectionProps {
 	metrics: Metric[];
 }
 
-function MetricCounter({ metric, inView }: { metric: Metric; inView: boolean }) {
+function MetricCounter({
+	metric,
+	inView,
+}: {
+	metric: Metric;
+	inView: boolean;
+}) {
 	const countValue = useMotionValue(0);
 	const rounded = useTransform(countValue, (latest) => Math.round(latest));
 	const springValue = useSpring(countValue, { stiffness: 50, damping: 30 });
@@ -25,7 +37,8 @@ function MetricCounter({ metric, inView }: { metric: Metric; inView: boolean }) 
 	return (
 		<div className="flex flex-col gap-1">
 			<div className="text-3xl md:text-5xl font-display font-bold text-clay-950 tracking-tighter">
-				{display}{metric.suffix}
+				{display}
+				{metric.suffix}
 			</div>
 			<div className="text-[10px] uppercase tracking-[0.3em] font-bold text-clay-400">
 				{metric.label}
@@ -46,7 +59,6 @@ export function CtaSection({ content: cta, metrics }: CtaSectionProps) {
 		>
 			<div className="max-w-7xl mx-auto px-6 md:px-12">
 				<div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
-					
 					{/* Left: Metrics */}
 					<div className="lg:col-span-4 grid grid-cols-2 gap-12 order-2 lg:order-1">
 						{metrics.map((m, i) => (
@@ -68,23 +80,23 @@ export function CtaSection({ content: cta, metrics }: CtaSectionProps) {
 								</p>
 							</div>
 
-							<h2 className="text-clay-950 font-display font-bold text-5xl md:text-7xl lg:text-8xl leading-[1] tracking-tighter mb-10">
+							<h2 className="text-clay-950 font-display font-bold text-4xl md:text-5xl lg:text-6xl leading-[1] tracking-tighter mb-6 md:mb-8">
 								{cta.heading}
 							</h2>
 
-							<p className="text-clay-600 text-lg md:text-xl max-w-2xl mb-12 md:mb-16 leading-relaxed font-light">
+							<p className="text-clay-600 text-base md:text-lg max-w-2xl mb-8 md:mb-10 leading-relaxed font-light">
 								{cta.subCopy}
 							</p>
 
-							<div className="flex flex-wrap gap-6 items-center">
+							<div className="flex flex-wrap gap-4 md:gap-6 items-center">
 								<div className="p-1 rounded-full bg-inka-gold/20 border border-inka-gold/30">
 									<a
 										href={cta.primaryCta.href}
-										className="group/button relative inline-flex items-center justify-center rounded-full h-14 px-10 bg-inka-gold text-clay-950 font-bold text-base whitespace-nowrap transition-all shadow-xl active:scale-95 overflow-hidden"
+										className="group/button relative inline-flex items-center justify-center rounded-full h-12 md:h-14 px-8 md:px-10 bg-inka-gold text-clay-950 font-bold text-sm md:text-base whitespace-nowrap transition-all shadow-xl active:scale-95 overflow-hidden"
 									>
 										{cta.primaryCta.label}
-										<div className="ml-3 w-8 h-8 rounded-full bg-clay-950/10 flex items-center justify-center transition-transform duration-500 group-hover/button:translate-x-1">
-											<IconArrowRight size={18} />
+										<div className="ml-3 w-7 h-7 md:w-8 md:h-8 rounded-full bg-clay-950/10 flex items-center justify-center transition-transform duration-500 group-hover/button:translate-x-1">
+											<IconArrowRight size={16} className="md:size-[18px]" />
 										</div>
 									</a>
 								</div>
@@ -92,7 +104,7 @@ export function CtaSection({ content: cta, metrics }: CtaSectionProps) {
 								{cta.secondaryCta && (
 									<a
 										href={cta.secondaryCta.href}
-										className="group/button inline-flex items-center justify-center rounded-full h-14 px-10 bg-white/5 border border-clay-300 text-clay-700 hover:bg-clay-100 hover:text-clay-950 transition-all active:scale-95"
+										className="group/button inline-flex items-center justify-center rounded-full h-12 md:h-14 px-8 md:px-10 bg-white/5 border border-clay-300 text-clay-700 hover:bg-clay-100 hover:text-clay-950 transition-all active:scale-95"
 									>
 										{cta.secondaryCta.label}
 										<IconArrowUpRight className="ml-2 h-5 w-5 transition-transform duration-500 group-hover/button:translate-x-1 group-hover/button:-translate-y-1" />

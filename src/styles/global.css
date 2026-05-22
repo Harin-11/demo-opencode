@@ -60,14 +60,14 @@ body {
 
 /* Standardized Section Padding */
 section {
-  padding-top: 6rem; /* py-24 */
-  padding-bottom: 6rem;
+  padding-top: 4rem; /* py-16 */
+  padding-bottom: 4rem;
 }
 
 @media (min-width: 768px) {
   section {
-    padding-top: 8rem; /* py-32 */
-    padding-bottom: 8rem;
+    padding-top: 6rem; /* py-24 */
+    padding-bottom: 6rem;
   }
 }
 

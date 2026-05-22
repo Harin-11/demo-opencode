@@ -8,10 +8,7 @@ import {
 } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { IconArrowLeft, IconArrowRight, IconQuote } from "@tabler/icons-react";
-import type {
-	Content,
-	Testimonial as TestimonialType,
-} from "@/data/types";
+import type { Content, Testimonial as TestimonialType } from "@/data/types";
 
 interface GalleryProps {
 	content: Content["gallery"];
@@ -27,7 +24,7 @@ function GalleryImage({ img }: { img: Content["gallery"]["images"][number] }) {
 
 	const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.5, 1, 0.5]);
 	const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1.1, 1, 1.1]);
-	
+
 	const isInView = useInView(ref, { once: true, margin: "-10%" });
 
 	const positionClass = (pos?: string) => {
@@ -42,7 +39,7 @@ function GalleryImage({ img }: { img: Content["gallery"]["images"][number] }) {
 			ref={ref}
 			className="relative w-full min-h-[60vh] md:min-h-[80vh] overflow-hidden bg-clay-950 flex items-center justify-center py-10"
 		>
-			<motion.div 
+			<motion.div
 				className="absolute inset-0 w-full h-full will-change-transform"
 				style={{ opacity, scale }}
 			>
@@ -53,7 +50,7 @@ function GalleryImage({ img }: { img: Content["gallery"]["images"][number] }) {
 					className="w-full h-full object-cover"
 				/>
 				{/* Animation Overlay (Curtain) */}
-				<motion.div 
+				<motion.div
 					className="absolute inset-0 bg-clay-950 z-20"
 					initial={{ scaleX: 1 }}
 					animate={isInView ? { scaleX: 0 } : {}}
@@ -110,10 +107,9 @@ function AnimatedTestimonials({
 	return (
 		<div className="relative mt-12 md:mt-32">
 			{/* Layout Wrapper: Stacked on mobile, overlapped on desktop */}
-			<div className="flex flex-col md:block relative h-auto md:h-[700px] overflow-hidden rounded-[3rem] bg-clay-900 border border-white/5">
-				
+			<div className="flex flex-col md:block relative h-auto md:h-[480px] overflow-hidden rounded-[3rem] bg-clay-900 border border-white/5">
 				{/* Image Container */}
-				<div className="relative h-[400px] md:h-full w-full overflow-hidden">
+				<div className="relative h-[240px] md:h-full w-full overflow-hidden">
 					<AnimatePresence mode="popLayout">
 						<motion.div
 							key={active}
@@ -123,8 +119,11 @@ function AnimatedTestimonials({
 							transition={{ duration: 1.2, ease: [0.32, 0.72, 0, 1] }}
 							className="absolute inset-0"
 						>
-							<img 
-								src={testimonials[active].avatar || `https://picsum.photos/seed/portrait-${active}/800/1000`} 
+							<img
+								src={
+									testimonials[active].avatar ||
+									`https://picsum.photos/seed/portrait-${active}/800/1000`
+								}
 								alt={testimonials[active].author}
 								className="w-full h-full object-cover grayscale-[0.3]"
 							/>
@@ -142,16 +141,23 @@ function AnimatedTestimonials({
 								key={`quote-${active}`}
 								initial={{ opacity: 0, y: 30 }}
 								animate={{ opacity: 1, y: 0 }}
-								transition={{ duration: 0.8, delay: 0.4, ease: [0.32, 0.72, 0, 1] }}
+								transition={{
+									duration: 0.8,
+									delay: 0.4,
+									ease: [0.32, 0.72, 0, 1],
+								}}
 							>
-								<IconQuote size={60} className="text-inka-gold mb-8 md:mb-10 opacity-40" />
-								<blockquote className="text-white font-display text-2xl md:text-5xl lg:text-6xl leading-[1.1] tracking-tighter mb-8 md:mb-12 italic">
+								<IconQuote
+									size={48}
+									className="text-inka-gold mb-6 md:mb-8 opacity-40"
+								/>
+								<blockquote className="text-white font-display text-lg md:text-3xl lg:text-4xl leading-[1.2] tracking-tighter mb-5 md:mb-8 italic">
 									&ldquo;{testimonials[active].quote}&rdquo;
 								</blockquote>
 								<cite className="not-italic flex items-center gap-4 md:gap-6">
 									<div className="h-[1px] w-8 md:w-12 bg-inka-gold" />
 									<div>
-										<p className="text-white font-display font-bold text-xl md:text-2xl tracking-tight">
+										<p className="text-white font-display font-bold text-lg md:text-xl tracking-tight">
 											{testimonials[active].author}
 										</p>
 										<p className="text-inka-gold/70 text-xs md:text-base mt-1 uppercase tracking-[0.3em] font-bold">
@@ -166,14 +172,18 @@ function AnimatedTestimonials({
 					{/* Controls Overlay */}
 					<div className="mt-12 md:mt-0 md:absolute bottom-12 right-0 md:right-12 flex items-center gap-6 md:gap-8 z-20">
 						<div className="flex flex-col items-end gap-2">
-							<p className="text-white/40 font-mono text-[10px] md:text-sm tracking-widest uppercase">Viajeros</p>
+							<p className="text-white/40 font-mono text-[10px] md:text-sm tracking-widest uppercase">
+								Viajeros
+							</p>
 							<div className="flex gap-1.5 md:gap-2">
 								{testimonials.map((_, i) => (
-									<div 
-										key={i} 
+									<div
+										key={i}
 										className={cn(
 											"h-1 transition-all duration-500 rounded-full",
-											i === active ? "w-6 md:w-8 bg-inka-gold" : "w-2 md:w-3 bg-white/20"
+											i === active
+												? "w-6 md:w-8 bg-inka-gold"
+												: "w-2 md:w-3 bg-white/20",
 										)}
 									/>
 								))}
@@ -201,9 +211,7 @@ function AnimatedTestimonials({
 }
 
 /* ── Gallery (main export) ── */
-export function Gallery({
-	content: { images, testimonials },
-}: GalleryProps) {
+export function Gallery({ content: { images, testimonials } }: GalleryProps) {
 	return (
 		<section id="galeria" className="p-0 bg-clay-50 overflow-hidden">
 			{/* Cinematic focused images */}
@@ -216,7 +224,7 @@ export function Gallery({
 			{/* Testimonials */}
 			<div className="py-24 md:py-32 bg-clay-950 overflow-hidden relative">
 				<div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-inka-gold/[0.05] rounded-full blur-[160px] pointer-events-none" />
-				
+
 				<div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
 					<motion.div
 						className="text-center md:text-left max-w-4xl"
@@ -228,8 +236,9 @@ export function Gallery({
 						<p className="text-inka-gold text-[10px] uppercase tracking-[0.4em] font-bold mb-6">
 							Voces del camino
 						</p>
-						<h2 className="text-white font-display font-bold text-4xl md:text-6xl lg:text-8xl leading-[1] tracking-tighter">
-							Historias que <span className="text-inka-gold">inspiran</span> a seguir
+						<h2 className="text-white font-display font-bold text-4xl md:text-5xl lg:text-6xl leading-[1] tracking-tighter">
+							Historias que <span className="text-inka-gold">inspiran</span> a
+							seguir
 						</h2>
 					</motion.div>
 

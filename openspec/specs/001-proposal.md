@@ -317,12 +317,11 @@ src/
 
 | Component        | Client Directive      | Rationale                         |
 | ---------------- | --------------------- | --------------------------------- |
-| Nav              | `client:load`         | Always interactive for navigation |
-| Hero             | `client:visible`      | GSAP triggers on first paint      |
-| Features (Bento) | `client:visible`      | Animations on scroll reveal       |
-| Gallery          | `client:visible`      | ScrollTrigger requires client JS  |
-| Testimonials     | `client:visible`      | GSAP pin + stack                  |
-| CTA Section      | `client:visible`      | Magnetic button effect            |
+| Nav              | `client:load`         | Always interactive for navigation                    |
+| Hero             | `client:load`         | Framer Motion entrance on first paint               |
+| Features (Bento) | `client:load`         | Animations on scroll reveal via `useInView`         |
+| Gallery          | `client:load`         | Scroll animations via `useScroll` + `useTransform`  |
+| CTA Section      | `client:load`         | Magnetic button effect + metrics count-up           |
 | Footer           | Static (no directive) | No client JS needed               |
 
 Use `client:visible` as default interactive directive — components hydrate when close to viewport, preserving initial load performance.
@@ -349,7 +348,7 @@ Use `client:visible` as default interactive directive — components hydrate whe
 
 - Preconnect + preload for Fontshare fonts (already in Layout.astro)
 - Images: proper `width`/`height` attributes, `loading="lazy"` for below-fold, `fetchpriority="high"` for hero
-- GSAP: `ScrollTrigger` with `scrub: 1` for smooth performance
+- Framer Motion: `useScroll` with `useTransform` for scrubbed parallax effects
 - No layout thrashing — batch DOM reads before writes
 - Minimal JS payload: only interactive components get client directives
 
