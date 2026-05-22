@@ -79,26 +79,26 @@ function FeatureCard({
 			>
 				<div className="rounded-[calc(2.5rem-0.5rem)] bg-clay-200 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)] h-full overflow-hidden relative">
 					{card.image && (
-						<div className="relative h-full min-h-[300px] md:min-h-[240px]">
+						<div className="relative h-full min-h-[280px] md:min-h-[220px]">
 							<motion.img
 								src={card.image.src}
 								alt={card.image.alt}
 								loading="lazy"
 								className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
 							/>
-							<div className="absolute inset-0 bg-gradient-to-t from-clay-950/80 via-clay-950/20 to-transparent" />
+							<div className="absolute inset-0 bg-gradient-to-t from-clay-950/80 via-clay-950/30 to-transparent" />
 
-							<div className="absolute bottom-0 left-0 right-0 p-8 md:p-10 flex flex-col justify-end h-full">
+							<div className="absolute bottom-0 left-0 right-0 p-5 md:p-6">
 								<motion.div
 									initial={{ opacity: 0, y: 10 }}
 									animate={isInView ? { opacity: 1, y: 0 } : {}}
 									transition={{ delay: 0.5 + index * 0.1, duration: 0.8 }}
 								>
-									<h3 className="text-white font-display font-bold text-2xl md:text-3xl mb-3 tracking-tight">
+									<h3 className="text-white font-display font-bold text-xl md:text-2xl tracking-tight">
 										{card.title}
 									</h3>
-									<p className="text-white/70 text-sm md:text-base leading-relaxed max-w-sm">
-										{card.description}
+									<p className="text-white/60 text-xs md:text-sm mt-1.5">
+										Tocá para ver más
 									</p>
 								</motion.div>
 							</div>
