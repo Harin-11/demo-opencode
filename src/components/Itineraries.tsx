@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { IconCircleCheck, IconArrowRight } from "@tabler/icons-react";
 import type { Content, Itinerary } from "@/data/types";
@@ -8,9 +8,7 @@ interface ItinerariesProps {
 	content: Content["itineraries"];
 }
 
-/* ── Desktop Accordion Card ──
-   Contenido siempre en el DOM — nunca se desmonta.
-   Solo opacity + y animan. No hay re-wrap de texto. */
+/* ── Desktop Accordion Card ── */
 function ItineraryCard({
 	item,
 	isExpanded,
@@ -42,56 +40,52 @@ function ItineraryCard({
 				)}
 			/>
 
-			{/* Título — siempre visible, anclado abajo */}
-			<div className="absolute inset-x-0 bottom-0 p-5 md:p-6 z-10">
-				<div className="flex items-center gap-2 mb-2 md:mb-3">
-					<div className="px-3 py-1 rounded-full bg-inka-gold text-clay-950 font-bold text-[10px] uppercase tracking-widest shrink-0">
-						{item.duration}
-					</div>
-				</div>
-				<h3 className="text-white font-display font-bold text-xl md:text-2xl leading-tight tracking-tighter">
-					{item.title}
-				</h3>
-			</div>
-
-			{/* Contenido expandido — SIEMPPE en el DOM.
-			    opacity: 0 cuando colapsado → invisible pero ancho completo.
-			    Así el texto nunca re-wrappea bruscamente. */}
-			<motion.div
-				initial={false}
-				animate={
-					isExpanded
-						? { opacity: 1, y: 0 }
-						: { opacity: 0, y: 16 }
-				}
-				transition={{
-					duration: 0.4,
-					ease: [0.32, 0.72, 0, 1],
-				}}
-				className="absolute inset-x-0 bottom-0 p-5 md:p-6 z-20"
-				style={{ pointerEvents: isExpanded ? "auto" : "none" }}
-			>
-				{/* Spacer: deja espacio al título arriba */}
-				<div className="h-14 md:h-16" />
-
-				<p className="text-white/80 text-sm md:text-base mb-4 md:mb-5 leading-relaxed">
-					{item.description}
-				</p>
-				<div className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3">
-					{item.highlights.map((h, i) => (
-						<div
-							key={i}
-							className="flex items-center gap-2 text-white/90"
-						>
-							<IconCircleCheck
-								size={14}
-								className="text-inka-gold shrink-0"
-							/>
-							<span className="text-xs font-medium">{h}</span>
+			<div className="absolute inset-0 p-5 md:p-6 flex flex-col justify-end">
+				<div className="relative z-10">
+					<div className="flex items-center gap-2 mb-2 md:mb-3">
+						<div className="px-3 py-1 rounded-full bg-inka-gold text-clay-950 font-bold text-[10px] uppercase tracking-widest shrink-0">
+							{item.duration}
 						</div>
-					))}
 					</div>
-			</motion.div>
+					<h3 className="text-white font-display font-bold text-xl md:text-2xl leading-tight tracking-tighter">
+						{item.title}
+					</h3>
+				</div>
+
+				<AnimatePresence mode="wait" initial={false}>
+					{isExpanded && (
+						<motion.div
+							key="expanded"
+							initial={{ opacity: 0, y: 8 }}
+							animate={{ opacity: 1, y: 0 }}
+							exit={{ opacity: 0, y: 6 }}
+							transition={{
+								duration: 0.35,
+								ease: [0.32, 0.72, 0, 1],
+							}}
+							className="relative z-10 max-w-2xl mt-3 md:mt-4"
+						>
+							<p className="text-white/80 text-sm md:text-base mb-4 md:mb-6 leading-relaxed">
+								{item.description}
+							</p>
+							<div className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3">
+								{item.highlights.map((h, i) => (
+									<div
+										key={i}
+										className="flex items-center gap-2 text-white/90"
+									>
+										<IconCircleCheck
+											size={14}
+											className="text-inka-gold shrink-0"
+										/>
+										<span className="text-xs font-medium">{h}</span>
+									</div>
+								))}
+							</div>
+						</motion.div>
+					)}
+				</AnimatePresence>
+			</div>
 
 			{/* Desktop: Horizontal blur pill on hover */}
 			{!isExpanded && (
@@ -146,25 +140,24 @@ function MobileItineraryCard({
 					{item.description}
 				</p>
 
-				{/* Highlights con fade suave */}
-				<div
-					className={cn(
-						"space-y-1.5 mb-2 transition-all duration-350 ease-out",
-						isActive
-							? "opacity-100 translate-y-0"
-							: "opacity-0 translate-y-2 pointer-events-none",
-					)}
-				>
-					{item.highlights.slice(0, 2).map((h, i) => (
-						<div key={i} className="flex items-center gap-2 text-white/90">
-							<IconCircleCheck
-								size={13}
-								className="text-inka-gold shrink-0"
-							/>
-							<span className="text-xs font-medium">{h}</span>
-						</div>
-					))}
-				</div>
+				{isActive && (
+					<motion.div
+						initial={{ opacity: 0, y: 6 }}
+						animate={{ opacity: 1, y: 0 }}
+						transition={{ duration: 0.3, ease: [0.32, 0.72, 0, 1] }}
+						className="space-y-1 mb-2"
+					>
+						{item.highlights.slice(0, 2).map((h, i) => (
+							<div key={i} className="flex items-center gap-2 text-white/90">
+								<IconCircleCheck
+									size={13}
+									className="text-inka-gold shrink-0"
+								/>
+								<span className="text-xs font-medium">{h}</span>
+							</div>
+						))}
+					</motion.div>
+				)}
 
 				<div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-2 inline-flex items-center gap-2">
 					<span className="text-white text-sm font-medium">
@@ -247,9 +240,7 @@ export function Itineraries({
 								item={item}
 								isActive={activeMobileId === item.id}
 								onClick={() =>
-									setActiveMobileId(
-										activeMobileId === item.id ? null : item.id,
-									)
+									setActiveMobileId(activeMobileId === item.id ? null : item.id)
 								}
 							/>
 						))}
@@ -278,9 +269,7 @@ export function Itineraries({
 							item={item}
 							isExpanded={expandedId === item.id}
 							onToggle={() =>
-								setExpandedId(
-									item.id === expandedId ? null : item.id,
-								)
+								setExpandedId(item.id === expandedId ? null : item.id)
 							}
 						/>
 					))}
